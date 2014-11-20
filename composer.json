@@ -1,0 +1,25 @@
+{
+    "name" : "webit/shipment",
+    "type" : "library",
+    "description": "Web-IT Shipment",
+    "authors": [
+        {
+            "name": "Daniel Bojdo",
+            "email": "daniel.bojdo@web-it.eu"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "webit/addressing": "dev-master",
+        "doctrine/collections": "dev-master",
+        "symfony/event-dispatcher": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webit\\Shipment\\": "src/"
+        }
+    }
+}
