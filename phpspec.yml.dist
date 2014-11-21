@@ -3,3 +3,4 @@ suites:
         namespace: Webit\Shipment\
         spec_prefix: spec
         psr4_prefix: Webit\Shipment
+        spec_path: tests/
