@@ -139,12 +139,12 @@ interface ConsignmentInterface
     public function getWeight();
 
     /**
-     * @return ConsignmentDispatchConfirmationInterface
+     * @return DispatchConfirmationInterface
      */
     public function getDispatchConfirmation();
 
     /**
-     * @param ConsignmentDispatchConfirmationInterface $consignmentDispatchConfirmation
+     * @param DispatchConfirmationInterface $consignmentDispatchConfirmation
      */
-    public function setDispatchConfirmation(ConsignmentDispatchConfirmationInterface $consignmentDispatchConfirmation);
+    public function setDispatchConfirmation(DispatchConfirmationInterface $consignmentDispatchConfirmation);
 }

@@ -9,7 +9,7 @@
 namespace Webit\Shipment\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Webit\Shipment\Consignment\ConsignmentDispatchConfirmationInterface;
+use Webit\Shipment\Consignment\DispatchConfirmationInterface;
 use Webit\Shipment\Consignment\ConsignmentInterface;
 use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorInterface;
@@ -50,14 +50,14 @@ interface ConsignmentManagerInterface
     /**
      * Prepare single consignment. Change status from new -> prepared
      * @param ConsignmentInterface $consignment
-     * @return ConsignmentDispatchConfirmationInterface
+     * @return DispatchConfirmationInterface
      */
     public function dispatchConsignment(ConsignmentInterface $consignment);
 
     /**
      * Prepare given consignments. Change status from new -> prepared
      * @param ArrayCollection $consignments
-     * @return ConsignmentDispatchConfirmationInterface
+     * @return DispatchConfirmationInterface
      */
     public function dispatchConsignments(ArrayCollection $consignments);
 

@@ -13,6 +13,11 @@ class VendorRepositoryInMemorySpec extends ObjectBehavior
         $this->shouldHaveType('Webit\Shipment\Vendor\VendorRepositoryInMemory');
     }
 
+    function it_is_under_repository_interface_contract()
+    {
+        $this->beAnInstanceOf('Webit\Shipment\Vendor\VendorRepositoryInterface');
+    }
+
     function it_is_able_to_return_vendors_collection()
     {
         $this->getVendors()->shouldHaveType('Doctrine\Common\Collections\ArrayCollection');

@@ -9,7 +9,9 @@ namespace Webit\Shipment\Consignment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Address\DeliveryAddressInterface;
 use Webit\Shipment\Address\SenderAddressInterface;
+use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorInterface;
+use Webit\Shipment\Vendor\VendorOptionValueInterface;
 
 /**
  * Class Consignment
@@ -68,7 +70,7 @@ class Consignment implements ConsignmentInterface
     protected $reference;
 
     /**
-     * @var ConsignmentDispatchConfirmationInterface
+     * @var DispatchConfirmationInterface
      */
     protected $dispatchConfirmation;
 
@@ -83,13 +85,13 @@ class Consignment implements ConsignmentInterface
     /**
      * @param DeliveryAddressInterface $deliveryAddress
      */
-    public function setDeliveryAddress($deliveryAddress)
+    public function setDeliveryAddress(DeliveryAddressInterface $deliveryAddress)
     {
         $this->deliveryAddress = $deliveryAddress;
     }
 
     /**
-     * @return ConsignmentDispatchConfirmationInterface
+     * @return DispatchConfirmationInterface
      */
     public function getDispatchConfirmation()
     {
@@ -97,9 +99,9 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param ConsignmentDispatchConfirmationInterface $dispatchConfirmation
+     * @param DispatchConfirmationInterface $dispatchConfirmation
      */
-    public function setDispatchConfirmation(ConsignmentDispatchConfirmationInterface $dispatchConfirmation)
+    public function setDispatchConfirmation(DispatchConfirmationInterface $dispatchConfirmation)
     {
         $this->dispatchConfirmation = $dispatchConfirmation;
     }
@@ -163,7 +165,7 @@ class Consignment implements ConsignmentInterface
     /**
      * @param SenderAddressInterface $senderAddress
      */
-    public function setSenderAddress($senderAddress)
+    public function setSenderAddress(SenderAddressInterface $senderAddress)
     {
         $this->senderAddress = $senderAddress;
     }
@@ -195,7 +197,7 @@ class Consignment implements ConsignmentInterface
     /**
      * @param VendorInterface $vendor
      */
-    public function setVendor($vendor)
+    public function setVendor(VendorInterface $vendor)
     {
         $this->vendor = $vendor;
     }

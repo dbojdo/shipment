@@ -9,7 +9,7 @@
 namespace Webit\Shipment\Manager;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Webit\Shipment\Consignment\ConsignmentDispatchConfirmationInterface;
+use Webit\Shipment\Consignment\DispatchConfirmationInterface;
 use Webit\Shipment\Consignment\ConsignmentInterface;
 use Webit\Shipment\Vendor\VendorFactoryInterface;
 use Webit\Shipment\Vendor\VendorInterface;
@@ -44,7 +44,7 @@ interface VendorAdapterInterface extends VendorFactoryInterface
 
     /**
      * @param ArrayCollection $consignments
-     * @return ConsignmentDispatchConfirmationInterface
+     * @return DispatchConfirmationInterface
      */
     public function dispatchConsignments(ArrayCollection $consignments);
 
@@ -75,22 +75,22 @@ interface VendorAdapterInterface extends VendorFactoryInterface
     public function getConsignmentLabel(ConsignmentInterface $consignment, $mode = null);
 
     /**
-     * @param ConsignmentDispatchConfirmationInterface $consignmentDispatchConfirmation
+     * @param DispatchConfirmationInterface $consignmentDispatchConfirmation
      * @param string $mode
      * @return \SplFileInfo
      */
     public function getConsignmentDispatchConfirmationLabel(
-        ConsignmentDispatchConfirmationInterface $consignmentDispatchConfirmation,
+        DispatchConfirmationInterface $consignmentDispatchConfirmation,
         $mode = null
     );
 
     /**
-     * @param ConsignmentDispatchConfirmationInterface $consignmentDispatchConfirmation
+     * @param DispatchConfirmationInterface $consignmentDispatchConfirmation
      * @param string $mode
      * @return \SplFileInfo
      */
     public function getConsignmentDispatchConfirmationPrint(
-        ConsignmentDispatchConfirmationInterface $consignmentDispatchConfirmation,
+        DispatchConfirmationInterface $consignmentDispatchConfirmation,
         $mode = null
     );
 
