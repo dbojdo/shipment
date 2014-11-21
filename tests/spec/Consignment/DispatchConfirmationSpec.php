@@ -14,7 +14,7 @@ class DispatchConfirmationSpec extends ObjectBehavior
 
     function it_is_under_dispatch_confirmation_interface_contract()
     {
-        $this->beAnInstanceOf('Webit\Shipment\Consignment\DispatchConfirmationInterface');
+        $this->shouldHaveType('Webit\Shipment\Consignment\DispatchConfirmationInterface');
     }
 
     function it_is_aware_of_consignment()

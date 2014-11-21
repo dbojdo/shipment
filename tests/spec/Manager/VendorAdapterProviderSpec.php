@@ -14,6 +14,11 @@ class VendorAdapterProviderSpec extends ObjectBehavior
         $this->shouldHaveType('Webit\Shipment\Manager\VendorAdapterProvider');
     }
 
+    function it_is_under_vendor_adapter_provider_interface_contract()
+    {
+        $this->shouldHaveType('Webit\Shipment\Manager\VendorAdapterProviderInterface');
+    }
+
     function it_is_able_to_register_adapter(VendorAdapterInterface $vendorAdapter)
     {
         $vendorAdapter->getVendorCode()->shouldBeCalled()->willReturn('vendor-1');

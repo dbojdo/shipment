@@ -22,10 +22,20 @@ interface ConsignmentManagerInterface
 {
 
     /**
-     * Update given consignment
      * @param ConsignmentInterface $consignment
      */
-    public function updateConsignment(ConsignmentInterface $consignment);
+    public function synchronizeConsignment(ConsignmentInterface $consignment);
+
+    /**
+     * Save given consignment
+     * @param ConsignmentInterface $consignment
+     */
+    public function saveConsignment(ConsignmentInterface $consignment);
+
+    /**
+     * @param ArrayCollection $consignments
+     */
+    public function synchronizeConsignmentsStatus(ArrayCollection $consignments);
 
     /**
      * Remove given consignment. Allowed only in "new" status

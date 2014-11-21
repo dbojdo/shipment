@@ -21,7 +21,7 @@ class ConsignmentSpec extends ObjectBehavior
 
     function it_is_under_consignment_interface_contract()
     {
-        $this->beAnInstanceOf('Webit\Shipment\Consignment\ConsignmentInterface');
+        $this->shouldHaveType('Webit\Shipment\Consignment\ConsignmentInterface');
     }
 
     function it_is_aware_of_id()

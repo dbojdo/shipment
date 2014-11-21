@@ -18,7 +18,7 @@ class ParcelSpec extends ObjectBehavior
 
     function it_is_under_parcel_interface_contract()
     {
-        $this->beAnInstanceOf('Webit\Shipment\Parcel\Parcel\ParcelInterface');
+        $this->shouldHaveType('Webit\Shipment\Parcel\ParcelInterface');
     }
 
     function it_is_aware_of_weight()
