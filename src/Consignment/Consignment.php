@@ -9,6 +9,7 @@ namespace Webit\Shipment\Consignment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Address\DeliveryAddressInterface;
 use Webit\Shipment\Address\SenderAddressInterface;
+use Webit\Shipment\Consignment\Exception\InvalidVendorOptionValueException;
 use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorInterface;
 use Webit\Shipment\Vendor\VendorOptionValueInterface;
@@ -101,7 +102,7 @@ class Consignment implements ConsignmentInterface
     /**
      * @param DispatchConfirmationInterface $dispatchConfirmation
      */
-    public function setDispatchConfirmation(DispatchConfirmationInterface $dispatchConfirmation)
+    public function setDispatchConfirmation(DispatchConfirmationInterface $dispatchConfirmation = null)
     {
         $this->dispatchConfirmation = $dispatchConfirmation;
     }
@@ -115,18 +116,14 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return ArrayCollection
      */
     public function getParcels()
     {
+        if ($this->parcels == null) {
+            $this->parcels = new ArrayCollection();
+        }
+
         return $this->parcels;
     }
 
@@ -223,6 +220,10 @@ class Consignment implements ConsignmentInterface
      */
     public function getVendorOptions()
     {
+        if ($this->vendorOptions == null) {
+            $this->vendorOptions = new ArrayCollection();
+        }
+
         return $this->vendorOptions;
     }
 
@@ -256,7 +257,7 @@ class Consignment implements ConsignmentInterface
      */
     public function getVendorOption($code)
     {
-        // TODO: Implement getVendorOption() method.
+        return $this->getVendorOptions()->get($code);
     }
 
     /**
@@ -264,7 +265,14 @@ class Consignment implements ConsignmentInterface
      */
     public function setVendorOption(VendorOptionValueInterface $vendorOptionValue)
     {
-        // TODO: Implement setVendorOption() method.
+        $option = $vendorOptionValue->getOption();
+        if (! $option || ! $option->getCode()) {
+            throw new InvalidVendorOptionValueException(
+                'Given vendor option value doesn\'t contain option or option code is empty.'
+            );
+        }
+
+        $this->getVendorOptions()->set($option->getCode(), $vendorOptionValue);
     }
 
     /**
@@ -272,7 +280,14 @@ class Consignment implements ConsignmentInterface
      */
     public function unsetVendorOption(VendorOptionValueInterface $vendorOptionValue)
     {
-        // TODO: Implement unsetVendorOption() method.
+        $option = $vendorOptionValue->getOption();
+        if (! $option || ! $option->getCode()) {
+            throw new InvalidVendorOptionValueException(
+                'Given vendor option value doesn\'t contain option or option code is empty.'
+            );
+        }
+
+        $this->getVendorOptions()->remove($option->getCode());
     }
 
     /**
@@ -280,7 +295,9 @@ class Consignment implements ConsignmentInterface
      */
     public function addParcel(ParcelInterface $parcel)
     {
-        // TODO: Implement addParcel() method.
+        if (! $this->getParcels()->contains($parcel)) {
+            $this->getParcels()->add($parcel);
+        }
     }
 
     /**
@@ -288,7 +305,9 @@ class Consignment implements ConsignmentInterface
      */
     public function removeParcel(ParcelInterface $parcel)
     {
-        // TODO: Implement removeParcel() method.
+        if ($this->getParcels()->contains($parcel)) {
+            $this->getParcels()->removeElement($parcel);
+        }
     }
 
     /**
@@ -296,9 +315,13 @@ class Consignment implements ConsignmentInterface
      */
     public function getWeight()
     {
-        // TODO: Implement getWeight() method.
+        $weight = 0;
+        /** @var ParcelInterface $parcel */
+        foreach ($this->getParcels() as $parcel) {
+            $weight += $parcel->getWeight();
+        }
+
+        return $weight;
     }
-
-
 }
  
