@@ -20,12 +20,6 @@ use Webit\Shipment\Vendor\VendorInterface;
  */
 interface ConsignmentManagerInterface
 {
-    /**
-     * Create new consignment for given vendor
-     * @param VendorInterface $vendor
-     * @return ConsignmentInterface
-     */
-    public function createConsignment(VendorInterface $vendor);
 
     /**
      * Update given consignment

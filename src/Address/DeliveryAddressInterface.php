@@ -9,12 +9,12 @@
 namespace Webit\Shipment\Address;
 
 use Webit\Addressing\Model\ContactDetailsAwareAddressInterface;
+use Webit\Addressing\Model\CountryAwareAddressInterface;
 
 /**
  * Interface DeliveryAddressInterface
  * @package Webit\Shipment\Address
  */
-interface DeliveryAddressInterface extends ContactDetailsAwareAddressInterface
+interface DeliveryAddressInterface extends CountryAwareAddressInterface, ContactDetailsAwareAddressInterface
 {
-
 }

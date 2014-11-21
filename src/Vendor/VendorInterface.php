@@ -60,4 +60,14 @@ interface VendorInterface
      * @return ArrayCollection
      */
     public function getDispatchConfirmationPrintModes();
+
+    /**
+     * @return bool
+     */
+    public function isActive();
+
+    /**
+     * @param bool $active
+     */
+    public function setActive($active);
 }

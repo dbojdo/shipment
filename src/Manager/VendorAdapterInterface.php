@@ -1,6 +1,6 @@
 <?php
 /**
- * ConsignmentManagerVendorAdapterInterface.php
+ * VendorAdapterInterface.php
  *
  * @author dbojdo - Daniel Bojdo <daniel.bojdo@web-it.eu>
  * Created on Nov 20, 2014, 15:38
@@ -11,25 +11,42 @@ namespace Webit\Shipment\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Consignment\ConsignmentDispatchConfirmationInterface;
 use Webit\Shipment\Consignment\ConsignmentInterface;
+use Webit\Shipment\Vendor\VendorFactoryInterface;
 use Webit\Shipment\Vendor\VendorInterface;
+use Webit\Tools\Data\FilterCollection;
+use Webit\Tools\Data\SorterCollection;
 
 /**
- * Interface ConsignmentManagerVendorAdapterInterface
+ * Interface VendorAdapterInterface
  * @package Webit\Shipment\Manager
  */
-interface ConsignmentManagerVendorAdapterInterface
+interface VendorAdapterInterface extends VendorFactoryInterface
 {
     /**
-     * @return VendorInterface
+     * @return string
      */
-    public function getVendor();
+    public function getVendorCode();
+
+    /**
+     * Returns consignments
+     * @param FilterCollection $filters
+     * @param SorterCollection $sorters
+     * @param int $limit
+     * @param int $offset
+     * @return ArrayCollection
+     */
+    public function getConsignments(
+        FilterCollection $filters = null,
+        SorterCollection $sorters = null,
+        $limit = 50,
+        $offset = 0
+    );
 
     /**
      * @param ArrayCollection $consignments
      * @return ConsignmentDispatchConfirmationInterface
      */
     public function dispatchConsignments(ArrayCollection $consignments);
-
 
     /**
      * Update consignment data with vendor's one

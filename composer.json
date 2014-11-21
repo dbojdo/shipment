@@ -11,6 +11,8 @@
     "require": {
         "php": ">=5.3.3",
         "webit/addressing": "dev-master",
+        "webit/php-tools": "dev-master",
+        "doctrine/cache": "dev-master",
         "doctrine/collections": "dev-master",
         "symfony/event-dispatcher": "dev-master"
     },
