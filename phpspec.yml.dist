@@ -1,0 +1,5 @@
+suites:
+    shipment_suit:
+        namespace: Webit\Shipment\
+        spec_prefix: spec
+        psr4_prefix: Webit\Shipment
