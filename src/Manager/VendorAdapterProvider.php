@@ -32,7 +32,7 @@ class VendorAdapterProvider implements VendorAdapterProviderInterface
      */
     public function getVendorAdapter(VendorInterface $vendor)
     {
-        $this->vendorAdapters->get($vendor->getCode());
+        return $this->vendorAdapters->get($vendor->getCode());
     }
 
     /**
