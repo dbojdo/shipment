@@ -16,7 +16,7 @@ interface VendorAdapterProviderInterface
 {
     /**
      * @param VendorInterface $vendor
-     * @return VendorAdapterProviderInterface
+     * @return VendorAdapterInterface
      */
     public function getVendorAdapter(VendorInterface $vendor);
 
