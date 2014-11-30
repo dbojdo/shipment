@@ -68,6 +68,12 @@ interface VendorAdapterInterface extends VendorFactoryInterface
     public function removeConsignment(ConsignmentInterface $consignment);
 
     /**
+     * Cancel consignment from vendor
+     * @param ConsignmentInterface $consignment
+     */
+    public function cancelConsignment(ConsignmentInterface $consignment);
+
+    /**
      * @param ConsignmentInterface $consignment
      * @param string $mode
      * @return \SplFileInfo

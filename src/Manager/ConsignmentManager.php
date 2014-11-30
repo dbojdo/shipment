@@ -53,9 +53,9 @@ class ConsignmentManager implements ConsignmentManagerInterface
         $this->eventDispatcher = $eventDispatcher;
     }
 
-
     /**
      * @param ConsignmentInterface $consignment
+     * @throws \Exception
      */
     public function synchronizeConsignment(ConsignmentInterface $consignment)
     {
@@ -68,7 +68,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $adapter->synchronizeConsignment($consignment);
             $this->consignmentRepository->saveConsignment($consignment);
         } catch (\Exception $e) {
-
+            throw $e;
         }
 
         $event = new EventConsignment($consignment);
@@ -78,6 +78,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
     /**
      * Save given consignment
      * @param ConsignmentInterface $consignment
+     * @throws \Exception
      */
     public function saveConsignment(ConsignmentInterface $consignment)
     {
@@ -90,7 +91,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $adapter->saveConsignment($consignment);
             $this->consignmentRepository->saveConsignment($consignment);
         } catch (\Exception $e) {
-
+            throw $e;
         }
 
         $event = new EventConsignment($consignment);
@@ -99,6 +100,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
 
     /**
      * @param ArrayCollection $consignments
+     * @throws \Exception
      */
     public function synchronizeConsignmentsStatus(ArrayCollection $consignments)
     {
@@ -116,7 +118,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 $consignment->setStatus($shipmentStatus);
                 $this->consignmentRepository->saveConsignment($consignment);
             } catch (\Exception $e) {
-
+                throw $e;
             }
 
             $event = new EventConsignment($consignment);
@@ -138,7 +140,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $adapter->removeConsignment($consignment);
             $this->consignmentRepository->removeConsignment($consignment);
         } catch (\Exception $e) {
-
+            throw $e;
         }
 
         $event = new EventConsignment($consignment);
@@ -146,18 +148,9 @@ class ConsignmentManager implements ConsignmentManagerInterface
     }
 
     /**
-     * Prepare single consignment. Change status from new -> prepared
-     * @param ConsignmentInterface $consignment
-     * @return DispatchConfirmationInterface
-     */
-    public function dispatchConsignment(ConsignmentInterface $consignment)
-    {
-        $this->dispatchConsignments(new ArrayCollection(array($consignment)));
-    }
-
-    /**
      * Prepare given consignments. Change status from new -> prepared
      * @param ArrayCollection $consignments
+     * @throws \Exception
      * @return DispatchConfirmationInterface
      */
     public function dispatchConsignments(ArrayCollection $consignments)
@@ -173,7 +166,6 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $event = new EventConsignment($consignment);
             $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENT_DISPATCH, $event);
             $consignmentsByVendor->get($vendor->getCode())->add($consignment);
-
         }
 
         foreach ($consignmentsByVendor as $vendorCode => $consignments) {
@@ -187,7 +179,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
                     $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENT_DISPATCH, $event);
                 }
             } catch (\Exception $e) {
-
+                throw $e;
             }
         }
     }
@@ -195,6 +187,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
     /**
      * Cancel given consignment. Allowed only in status different than "new".
      * @param ConsignmentInterface $consignment
+     * @throws \Exception
      */
     public function cancelConsignment(ConsignmentInterface $consignment)
     {
@@ -203,9 +196,9 @@ class ConsignmentManager implements ConsignmentManagerInterface
         $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENT_CANCEL, $event);
 
         try {
-//            $adapter->cancel($consignment);
+            $adapter->cancelConsignment($consignment);
         } catch (\Exception $e) {
-
+            throw $e;
         }
 
         $event = new EventConsignment($consignment);
