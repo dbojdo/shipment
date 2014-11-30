@@ -23,5 +23,6 @@
         "psr-4": {
             "Webit\\Shipment\\": "src/"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
