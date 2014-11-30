@@ -71,16 +71,6 @@ interface ConsignmentInterface
     /**
      * @return string
      */
-    public function getVendorId();
-
-    /**
-     * @param string $vendorId
-     */
-    public function setVendorId($vendorId);
-
-    /**
-     * @return string
-     */
     public function getStatus();
 
     /**

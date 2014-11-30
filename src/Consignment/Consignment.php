@@ -43,11 +43,6 @@ class Consignment implements ConsignmentInterface
     /**
      * @var string
      */
-    protected $vendorId;
-
-    /**
-     * @var string
-     */
     protected $status;
 
     /**
@@ -197,22 +192,6 @@ class Consignment implements ConsignmentInterface
     public function setVendor(VendorInterface $vendor)
     {
         $this->vendor = $vendor;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVendorId()
-    {
-        return $this->vendorId;
-    }
-
-    /**
-     * @param string $vendorId
-     */
-    public function setVendorId($vendorId)
-    {
-        $this->vendorId = $vendorId;
     }
 
     /**
