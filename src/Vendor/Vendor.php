@@ -55,6 +55,14 @@ class Vendor implements VendorInterface
     protected $dispatchConfirmationPrintModes;
 
     /**
+     * @param string $code
+     */
+    public function __construct($code)
+    {
+        $this->code = $code;
+    }
+
+    /**
      * @return string
      */
     public function getCode()
