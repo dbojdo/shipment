@@ -14,9 +14,8 @@ interface VendorFactoryInterface
 {
     /**
      *
-     * @param string $code
      * @return VendorInterface
      */
-    public function createVendor($code);
+    public function createVendor();
 }
  
