@@ -38,6 +38,16 @@ interface ConsignmentInterface
     public function setVendor(VendorInterface $vendor);
 
     /**
+     * @return string
+     */
+    public function getVendorId();
+
+    /**
+     * @param string $vendorId
+     */
+    public function setVendorId($vendorId);
+
+    /**
      * @return ArrayCollection
      */
     public function getVendorOptions();
