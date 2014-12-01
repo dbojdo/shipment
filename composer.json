@@ -14,7 +14,7 @@
         "webit/php-tools": "dev-master",
         "doctrine/cache": "~1.2",
         "doctrine/collections": "~1.2",
-        "symfony/event-dispatcher": "~2.5"
+        "symfony/event-dispatcher": "~2.3"
     },
     "require-dev": {
         "phpspec/phpspec": "2.1.*@dev"
