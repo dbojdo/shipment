@@ -44,27 +44,6 @@ interface ConsignmentManagerInterface
     public function removeConsignment(ConsignmentInterface $consignment);
 
     /**
-     * Add parcel to given consignment. Allowed only in "new" status
-     * @param ConsignmentInterface $consignment
-     * @param ParcelInterface $parcel
-     */
-    public function addParcel(ConsignmentInterface $consignment, ParcelInterface $parcel);
-
-    /**
-     * Remove parcel from given consignment. Allowed only in "new" status
-     * @param ConsignmentInterface $consignment
-     * @param ParcelInterface $parcel
-     */
-    public function removeParcel(ConsignmentInterface $consignment, ParcelInterface $parcel);
-
-    /**
-     * Prepare single consignment. Change status from new -> prepared
-     * @param ConsignmentInterface $consignment
-     * @return DispatchConfirmationInterface
-     */
-    public function dispatchConsignment(ConsignmentInterface $consignment);
-
-    /**
      * Prepare given consignments. Change status from new -> prepared
      * @param ArrayCollection $consignments
      * @return DispatchConfirmationInterface
