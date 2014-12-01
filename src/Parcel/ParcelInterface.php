@@ -19,6 +19,16 @@ use Webit\Shipment\Vendor\VendorOptionValueInterface;
 interface ParcelInterface
 {
     /**
+     * @return ConsignmentInterface
+     */
+    public function getConsignment();
+
+    /**
+     * @param ConsignmentInterface $consignment
+     */
+    public function setConsignment(ConsignmentInterface $consignment);
+
+    /**
      * @return string
      */
     public function getNumber();

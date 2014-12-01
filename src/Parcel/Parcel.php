@@ -7,6 +7,7 @@
 namespace Webit\Shipment\Parcel;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Webit\Shipment\Consignment\ConsignmentInterface;
 use Webit\Shipment\Parcel\Exception\InvalidVendorOptionValueException;
 use Webit\Shipment\Vendor\VendorOptionValueInterface;
 
@@ -16,6 +17,11 @@ use Webit\Shipment\Vendor\VendorOptionValueInterface;
  */
 class Parcel implements ParcelInterface
 {
+    /**
+     * @var ConsignmentInterface
+     */
+    protected $consignment;
+
     /**
      * @var string
      */
@@ -35,6 +41,22 @@ class Parcel implements ParcelInterface
      * @var ArrayCollection
      */
     protected $vendorOptions;
+
+    /**
+     * @return ConsignmentInterface
+     */
+    public function getConsignment()
+    {
+        return $this->consignment;
+    }
+
+    /**
+     * @param ConsignmentInterface $consignment
+     */
+    public function setConsignment(ConsignmentInterface $consignment)
+    {
+        $this->consignment = $consignment;
+    }
 
     /**
      * @return string
