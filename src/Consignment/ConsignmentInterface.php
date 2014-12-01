@@ -147,4 +147,14 @@ interface ConsignmentInterface
      * @param DispatchConfirmationInterface $consignmentDispatchConfirmation
      */
     public function setDispatchConfirmation(DispatchConfirmationInterface $consignmentDispatchConfirmation);
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt();
 }

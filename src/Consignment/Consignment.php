@@ -76,6 +76,16 @@ class Consignment implements ConsignmentInterface
     protected $dispatchConfirmation;
 
     /**
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    protected $updatedAt;
+
+    /**
      * @return DeliveryAddressInterface
      */
     public function getDeliveryAddress()
@@ -323,5 +333,20 @@ class Consignment implements ConsignmentInterface
 
         return $weight;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 }
- 
