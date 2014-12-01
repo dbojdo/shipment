@@ -43,6 +43,16 @@ class Parcel implements ParcelInterface
     protected $vendorOptions;
 
     /**
+     * @var string
+     */
+    protected $vendorStatus;
+
+    /**
+     * @var string
+     */
+    protected $status;
+
+    /**
      * @return ConsignmentInterface
      */
     public function getConsignment()
@@ -151,5 +161,37 @@ class Parcel implements ParcelInterface
         if ($option && $option->getCode()) {
             $this->getVendorOptions()->remove($option->getCode());
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVendorStatus()
+    {
+        return $this->vendorStatus;
+    }
+
+    /**
+     * @param string $vendorStatus
+     */
+    public function setVendorStatus($vendorStatus)
+    {
+        $this->vendorStatus = $vendorStatus;
     }
 }

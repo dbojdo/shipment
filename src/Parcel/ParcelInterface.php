@@ -59,6 +59,26 @@ interface ParcelInterface
     public function setReference($reference);
 
     /**
+     * @return string
+     */
+    public function getStatus();
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status);
+
+    /**
+     * @return string
+     */
+    public function getVendorStatus();
+
+    /**
+     * @param string $vendorStatus
+     */
+    public function setVendorStatus($vendorStatus);
+
+    /**
      * @return ArrayCollection
      */
     public function getVendorOptions();

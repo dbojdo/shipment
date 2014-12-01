@@ -306,6 +306,7 @@ class Consignment implements ConsignmentInterface
     public function addParcel(ParcelInterface $parcel)
     {
         if (! $this->getParcels()->contains($parcel)) {
+            $parcel->setConsignment($this);
             $this->getParcels()->add($parcel);
         }
     }
@@ -348,5 +349,15 @@ class Consignment implements ConsignmentInterface
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function ensureParcelsRelation()
+    {
+        /** @var ParcelInterface $parcel */
+        foreach ($this->getParcels() as $parcel) {
+            if (! $parcel->getConsignment()) {
+                $parcel->setConsignment($this);
+            }
+        }
     }
 }
