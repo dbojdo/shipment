@@ -31,11 +31,6 @@ class Consignment implements ConsignmentInterface
     protected $vendor;
 
     /**
-     * @var string
-     */
-    protected $vendorId;
-
-    /**
      * @var ArrayCollection
      */
     protected $vendorOptions;
@@ -69,6 +64,16 @@ class Consignment implements ConsignmentInterface
      * @var string
      */
     protected $reference;
+
+    /**
+     * @var bool
+     */
+    protected $cod;
+
+    /**
+     * @var float
+     */
+    protected $codAmount;
 
     /**
      * @var DispatchConfirmationInterface
@@ -194,6 +199,38 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
+     * @return boolean
+     */
+    public function isCod()
+    {
+        return $this->cod;
+    }
+
+    /**
+     * @param boolean $cod
+     */
+    public function setCod($cod)
+    {
+        $this->cod = $cod;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCodAmount()
+    {
+        return $this->codAmount;
+    }
+
+    /**
+     * @param float $codAmount
+     */
+    public function setCodAmount($codAmount)
+    {
+        $this->codAmount = $codAmount;
+    }
+
+    /**
      * @return VendorInterface
      */
     public function getVendor()
@@ -207,22 +244,6 @@ class Consignment implements ConsignmentInterface
     public function setVendor(VendorInterface $vendor)
     {
         $this->vendor = $vendor;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVendorId()
-    {
-        return $this->vendorId;
-    }
-
-    /**
-     * @param string $vendorId
-     */
-    public function setVendorId($vendorId)
-    {
-        $this->vendorId = $vendorId;
     }
 
     /**

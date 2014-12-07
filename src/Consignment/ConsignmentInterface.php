@@ -38,16 +38,6 @@ interface ConsignmentInterface
     public function setVendor(VendorInterface $vendor);
 
     /**
-     * @return string
-     */
-    public function getVendorId();
-
-    /**
-     * @param string $vendorId
-     */
-    public function setVendorId($vendorId);
-
-    /**
      * @return ArrayCollection
      */
     public function getVendorOptions();
@@ -137,6 +127,26 @@ interface ConsignmentInterface
      * @return float
      */
     public function getWeight();
+
+    /**
+     * @return bool
+     */
+    public function isCod();
+
+    /**
+     * @param bool $cod
+     */
+    public function setCod($cod);
+
+    /**
+     * @return float
+     */
+    public function getCodAmount();
+
+    /**
+     * @param floal $amount
+     */
+    public function setCodAmount($amount);
 
     /**
      * @return DispatchConfirmationInterface
