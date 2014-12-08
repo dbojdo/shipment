@@ -228,6 +228,7 @@ class Consignment implements ConsignmentInterface
     public function setCodAmount($codAmount)
     {
         $this->codAmount = $codAmount;
+        $this->setCod($codAmount > 0);
     }
 
     /**
