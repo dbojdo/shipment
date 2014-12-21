@@ -47,4 +47,3 @@ class VendorRepositoryInMemoryFactory
         $this->vendorFactories[] = $vendorFactory;
     }
 }
- 
