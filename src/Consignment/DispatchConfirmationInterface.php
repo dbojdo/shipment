@@ -22,6 +22,11 @@ interface DispatchConfirmationInterface
     public function getNumber();
 
     /**
+     * @param string $number
+     */
+    public function setNumber($number);
+
+    /**
      * @return ArrayCollection
      */
     public function getConsignments();

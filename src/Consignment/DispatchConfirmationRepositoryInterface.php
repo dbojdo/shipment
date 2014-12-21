@@ -23,6 +23,7 @@ interface DispatchConfirmationRepositoryInterface
     /**
      * @param VendorInterface $vendor
      * @param string $number
+     * @return DispatchConfirmationInterface
      */
     public function getDispatchConfirmation(VendorInterface $vendor, $number);
 
