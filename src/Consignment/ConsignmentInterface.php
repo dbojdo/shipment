@@ -144,7 +144,7 @@ interface ConsignmentInterface
     public function getCodAmount();
 
     /**
-     * @param floal $amount
+     * @param float $amount
      */
     public function setCodAmount($amount);
 
