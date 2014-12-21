@@ -20,6 +20,7 @@ final class ConsignmentStatusList
     const STATUS_DELIVERED = 'delivered';
     const STATUS_CLOSED = 'closed';
     const STATUS_CANCELED = 'canceled';
+    const STATUS_CONCERNED = 'concerned';
 
     /**
      * @return array
