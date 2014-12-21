@@ -8,13 +8,14 @@ namespace Webit\Shipment\Manager;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webit\Shipment\Consignment\ConsignmentRepositoryInterface;
+use Webit\Shipment\Consignment\ConsignmentStatusList;
 use Webit\Shipment\Event\EventConsignment;
 use Webit\Shipment\Event\Events;
 use Webit\Shipment\Manager\Exception\VendorAdapterNotFoundException;
-use Webit\Shipment\Parcel\ParcelInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Consignment\DispatchConfirmationInterface;
 use Webit\Shipment\Consignment\ConsignmentInterface;
+use Webit\Shipment\Parcel\ParcelInterface;
 
 /**
  * Class ConsignmentManager
@@ -111,16 +112,20 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENT_STATUS_SYNCHRONIZE, $event);
 
             try {
-                $status = $adapter->getConsignmentsStatus($consignment);
-                $consignment->setVendorStatus($status);
+                /** @var ParcelInterface $parcel */
+                foreach ($consignment->getParcels() as $parcel) {
+                    $adapter->synchronizeParcelStatus($parcel);
+                }
 
-                $shipmentStatus = $adapter->mapVendorStatus($status);
-                $consignment->setStatus($shipmentStatus);
+                $consignmentStatus = $this->resolveConsignmentStatus($consignment);
+                $consignment->setStatus($consignmentStatus);
+
                 $this->consignmentRepository->saveConsignment($consignment);
             } catch (\Exception $e) {
                 throw $e;
             }
 
+            
             $event = new EventConsignment($consignment);
             $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENT_STATUS_SYNCHRONIZE, $event);
         }
@@ -129,6 +134,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
     /**
      * Remove given consignment. Allowed only in "new" status
      * @param ConsignmentInterface $consignment
+     * @throws \Exception
      */
     public function removeConsignment(ConsignmentInterface $consignment)
     {
@@ -175,6 +181,13 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 foreach ($consignments as $consignment) {
                     $consignment->setDispatchConfirmation($confirmation);
 
+                    /** @var ParcelInterface $parcel */
+                    foreach ($consignment->getParcels() as $parcel) {
+                        $parcel->setStatus(ConsignmentStatusList::STATUS_DISPATCHED);
+                    }
+                    $consignment->setStatus(ConsignmentStatusList::STATUS_DISPATCHED);
+                    $this->consignmentRepository->saveConsignment($consignment);
+
                     $event = new EventConsignment($consignment);
                     $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENT_DISPATCH, $event);
                 }
@@ -197,6 +210,12 @@ class ConsignmentManager implements ConsignmentManagerInterface
 
         try {
             $adapter->cancelConsignment($consignment);
+            /** @var ParcelInterface $parcel */
+            foreach ($consignment->getParcels() as $parcel) {
+                $parcel->setStatus(ConsignmentStatusList::STATUS_CANCELED);
+            }
+            $consignment->setStatus(ConsignmentStatusList::STATUS_CANCELED);
+            $this->consignmentRepository->saveConsignment($consignment);
         } catch (\Exception $e) {
             throw $e;
         }
@@ -220,5 +239,31 @@ class ConsignmentManager implements ConsignmentManagerInterface
         }
 
         return $adapter;
+    }
+
+    /**
+     * @param ConsignmentInterface $consignment
+     * @return string
+     */
+    private function resolveConsignmentStatus(ConsignmentInterface $consignment)
+    {
+        $arStatus = ConsignmentStatusList::getStatusList();
+        $arStatus = array_combine($arStatus, array_fill(0, count($arStatus), 0));
+
+        /** @var ParcelInterface $parcel */
+        foreach ($consignment->getParcels() as $parcel) {
+            $parcelStatus = $parcel->getStatus();
+            if (array_key_exists($parcelStatus, $arStatus)) {
+                $arStatus[$parcelStatus]++;
+            }
+        }
+
+        foreach ($arStatus as $status => $count) {
+            if ($count > 0) {
+                return $status;
+            }
+        }
+
+        return null;
     }
 }

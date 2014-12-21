@@ -11,6 +11,7 @@ namespace Webit\Shipment\Manager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Consignment\DispatchConfirmationInterface;
 use Webit\Shipment\Consignment\ConsignmentInterface;
+use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorFactoryInterface;
 use Webit\Shipment\Vendor\VendorInterface;
 use Webit\Tools\Data\FilterCollection;
@@ -56,6 +57,12 @@ interface VendorAdapterInterface extends VendorFactoryInterface
     public function synchronizeConsignment(ConsignmentInterface $consignment);
 
     /**
+     * @param ParcelInterface $parcel
+     * @return string
+     */
+    public function synchronizeParcelStatus(ParcelInterface $parcel);
+
+    /**
      * Save consignment to vendor
      * @param ConsignmentInterface $consignment
      */
@@ -99,12 +106,6 @@ interface VendorAdapterInterface extends VendorFactoryInterface
         DispatchConfirmationInterface $dispatchConfirmation,
         $mode = null
     );
-
-    /**
-     * @param ConsignmentInterface $consignment
-     * @return string
-     */
-    public function getConsignmentsStatus(ConsignmentInterface $consignment);
 
     /**
      * @param ConsignmentInterface $consignment

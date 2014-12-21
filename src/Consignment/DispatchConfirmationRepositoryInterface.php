@@ -14,6 +14,12 @@ use Webit\Shipment\Vendor\VendorInterface;
  */
 interface DispatchConfirmationRepositoryInterface
 {
+
+    /**
+     * @return DispatchConfirmationInterface
+     */
+    public function createDispatchConfirmation();
+
     /**
      * @param VendorInterface $vendor
      * @param string $number

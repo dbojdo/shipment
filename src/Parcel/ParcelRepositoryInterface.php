@@ -15,6 +15,11 @@ use Webit\Shipment\Vendor\VendorInterface;
 interface ParcelRepositoryInterface
 {
     /**
+     * @return ParcelInterface
+     */
+    public function createParcel();
+
+    /**
      * @param VendorInterface $vendor
      * @param string $number
      * @return ParcelInterface

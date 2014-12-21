@@ -64,5 +64,4 @@ class DispatchConfirmation implements DispatchConfirmationInterface
     {
         $this->dispatchedAt = $dispatchedAt;
     }
-
 }
