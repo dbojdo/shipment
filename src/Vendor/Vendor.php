@@ -103,20 +103,24 @@ class Vendor implements VendorInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @return VendorOptionCollection
      */
     public function getConsignmentOptions()
     {
+        if ($this->consignmentOptions == null) {
+            $this->consignmentOptions = new VendorOptionCollection();
+        }
+
         return $this->consignmentOptions;
     }
 
     /**
-     * @return ArrayCollection
+     * @return VendorOptionCollection
      */
     public function getParcelOptions()
     {
         if ($this->parcelOptions == null) {
-            $this->parcelOptions = new ArrayCollection();
+            $this->parcelOptions = new VendorOptionCollection();
         }
 
         return $this->parcelOptions;

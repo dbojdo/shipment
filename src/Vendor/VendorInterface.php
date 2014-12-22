@@ -42,12 +42,12 @@ interface VendorInterface
     public function setDescription($description);
 
     /**
-     * @return ArrayCollection
+     * @return VendorOptionCollection
      */
     public function getConsignmentOptions();
 
     /**
-     * @return ArrayCollection
+     * @return VendorOptionCollection
      */
     public function getParcelOptions();
 

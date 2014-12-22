@@ -17,7 +17,7 @@ interface VendorOptionValueInterface
     /**
      * @return VendorOptionInterface
      */
-    public function getOption();
+    public function getOptionCode();
 
     /**
      * @return mixed
@@ -29,4 +29,3 @@ interface VendorOptionValueInterface
      */
     public function setValue($value);
 }
- 

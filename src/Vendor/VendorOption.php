@@ -53,7 +53,6 @@ class VendorOption implements VendorOptionInterface
         $this->code = $code;
     }
 
-
     /**
      * @return string
      */

@@ -5,9 +5,9 @@ namespace Webit\Shipment\Vendor;
 class VendorOptionValue implements VendorOptionValueInterface
 {
     /**
-     * @var VendorOptionInterface
+     * @var string
      */
-    protected $option;
+    protected $optionCode;
 
     /**
      * @var mixed
@@ -15,19 +15,19 @@ class VendorOptionValue implements VendorOptionValueInterface
     protected $value;
 
     /**
-     * @param VendorOptionInterface $option
+     * @param string $optionCode
      */
-    public function __construct(VendorOptionInterface $option)
+    public function __construct($optionCode)
     {
-        $this->option = $option;
+        $this->optionCode = $optionCode;
     }
 
     /**
-     * @return VendorOptionInterface
+     * @return string
      */
-    public function getOption()
+    public function getOptionCode()
     {
-        return $this->option;
+        return $this->optionCode;
     }
 
     /**

@@ -14,6 +14,7 @@ use Webit\Shipment\Consignment\ConsignmentInterface;
 use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorFactoryInterface;
 use Webit\Shipment\Vendor\VendorInterface;
+use Webit\Shipment\Vendor\VendorOptionInterface;
 use Webit\Tools\Data\FilterCollection;
 use Webit\Tools\Data\SorterCollection;
 
@@ -42,6 +43,12 @@ interface VendorAdapterInterface extends VendorFactoryInterface
         $limit = 50,
         $offset = 0
     );
+
+    /**
+     * @param string $optionCode
+     * @return VendorOptionInterface
+     */
+    public function getOption($optionCode);
 
     /**
      * @param ArrayCollection $consignments
