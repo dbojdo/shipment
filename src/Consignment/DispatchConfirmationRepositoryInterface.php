@@ -30,7 +30,7 @@ interface DispatchConfirmationRepositoryInterface
     /**
      * @param DispatchConfirmationInterface $dispatchConfirmation
      */
-    public function updateDispatchConfirmation(DispatchConfirmationInterface $dispatchConfirmation);
+    public function saveDispatchConfirmation(DispatchConfirmationInterface $dispatchConfirmation);
 
     /**
      * @param DispatchConfirmationInterface $dispatchConfirmation

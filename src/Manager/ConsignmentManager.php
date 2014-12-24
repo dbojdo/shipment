@@ -3,12 +3,13 @@
  * File: ConsignmentManager.php
  * Created at: 2014-11-23 16:19
  */
- 
+
 namespace Webit\Shipment\Manager;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webit\Shipment\Consignment\ConsignmentRepositoryInterface;
 use Webit\Shipment\Consignment\ConsignmentStatusList;
+use Webit\Shipment\Consignment\DispatchConfirmationRepositoryInterface;
 use Webit\Shipment\Event\EventConsignment;
 use Webit\Shipment\Event\Events;
 use Webit\Shipment\Manager\Exception\VendorAdapterNotFoundException;
@@ -35,6 +36,11 @@ class ConsignmentManager implements ConsignmentManagerInterface
     private $consignmentRepository;
 
     /**
+     * @var DispatchConfirmationRepositoryInterface
+     */
+    private $dispatchConfirmationRepository;
+
+    /**
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
@@ -42,15 +48,18 @@ class ConsignmentManager implements ConsignmentManagerInterface
     /**
      * @param VendorAdapterProviderInterface $adapterProvider
      * @param ConsignmentRepositoryInterface $consignmentRepository
+     * @param DispatchConfirmationRepositoryInterface $dispatchConfirmationRepository
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         VendorAdapterProviderInterface $adapterProvider,
         ConsignmentRepositoryInterface $consignmentRepository,
+        DispatchConfirmationRepositoryInterface $dispatchConfirmationRepository,
         EventDispatcherInterface $eventDispatcher
     ) {
         $this->adapterProvider = $adapterProvider;
         $this->consignmentRepository = $consignmentRepository;
+        $this->dispatchConfirmationRepository = $dispatchConfirmationRepository;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -125,7 +134,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 throw $e;
             }
 
-            
+
             $event = new EventConsignment($consignment);
             $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENT_STATUS_SYNCHRONIZE, $event);
         }
@@ -178,6 +187,8 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $adapter = $this->getAdapter($consignments->first());
             try {
                 $confirmation = $adapter->dispatchConsignments($consignments);
+                $this->dispatchConfirmationRepository->saveDispatchConfirmation($confirmation);
+
                 foreach ($consignments as $consignment) {
                     $consignment->setDispatchConfirmation($confirmation);
 
@@ -191,6 +202,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
                     $event = new EventConsignment($consignment);
                     $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENT_DISPATCH, $event);
                 }
+
             } catch (\Exception $e) {
                 throw $e;
             }
