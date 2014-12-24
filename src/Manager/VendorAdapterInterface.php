@@ -45,12 +45,6 @@ interface VendorAdapterInterface extends VendorFactoryInterface
     );
 
     /**
-     * @param string $optionCode
-     * @return VendorOptionInterface
-     */
-    public function getOption($optionCode);
-
-    /**
      * @param ArrayCollection $consignments
      * @return DispatchConfirmationInterface
      */
