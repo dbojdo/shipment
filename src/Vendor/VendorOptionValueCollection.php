@@ -9,6 +9,8 @@
 
 namespace Webit\Shipment\Vendor;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class VendorOptionValueCollection
  * @package Webit\Shipment\Vendor
