@@ -13,7 +13,7 @@ namespace Webit\Shipment\Vendor;
  * Class VendorOptionValueCollection
  * @package Webit\Shipment\Vendor
  */
-class VendorOptionValueCollection implements \IteratorAggregate
+class VendorOptionValueCollection implements \IteratorAggregate, \Countable
 {
     /**
      * @var ArrayCollection
@@ -64,5 +64,20 @@ class VendorOptionValueCollection implements \IteratorAggregate
     public function getIterator()
     {
         return $this->values->getIterator();
+    }
+
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Count elements of an object
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int The custom count as an integer.
+     * </p>
+     * <p>
+     * The return value is cast to an integer.
+     */
+    public function count()
+    {
+        return $this->options->count();
     }
 }

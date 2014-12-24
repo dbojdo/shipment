@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Class VendorOptionCollection
  * @package Webit\Shipment\Vendor
  */
-class VendorOptionCollection implements \IteratorAggregate
+class VendorOptionCollection implements \IteratorAggregate, \Countable
 {
     /**
      * @var ArrayCollection
@@ -66,5 +66,19 @@ class VendorOptionCollection implements \IteratorAggregate
     public function getIterator()
     {
         return $this->options->getIterator();
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Count elements of an object
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int The custom count as an integer.
+     * </p>
+     * <p>
+     * The return value is cast to an integer.
+     */
+    public function count()
+    {
+        return $this->options->count();
     }
 }
