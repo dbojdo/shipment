@@ -89,6 +89,16 @@ interface ConsignmentInterface
     public function setStatus($status);
 
     /**
+     * @return bool
+     */
+    public function isAnonymous();
+
+    /**
+     * @param bool $anonymous
+     */
+    public function setAnonymous($anonymous);
+
+    /**
      * @return SenderAddressInterface
      */
     public function getSenderAddress();
@@ -96,7 +106,7 @@ interface ConsignmentInterface
     /**
      * @param SenderAddressInterface $senderAddress
      */
-    public function setSenderAddress(SenderAddressInterface $senderAddress);
+    public function setSenderAddress(SenderAddressInterface $senderAddress = null);
 
     /**
      * @return DeliveryAddressInterface

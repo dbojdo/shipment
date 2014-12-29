@@ -51,6 +51,11 @@ class Consignment implements ConsignmentInterface
     protected $status;
 
     /**
+     * @var bool
+     */
+    protected $anonymous = false;
+
+    /**
      * @var SenderAddressInterface
      */
     protected $senderAddress;
@@ -171,6 +176,23 @@ class Consignment implements ConsignmentInterface
         $this->reference = $reference;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isAnonymous()
+    {
+        return $this->anonymous;
+    }
+
+    /**
+     * @param bool $anonymous
+     */
+    public function setAnonymous($anonymous)
+    {
+        $this->anonymous = (bool) $anonymous;
+    }
+
     /**
      * @return SenderAddressInterface
      */
@@ -182,7 +204,7 @@ class Consignment implements ConsignmentInterface
     /**
      * @param SenderAddressInterface $senderAddress
      */
-    public function setSenderAddress(SenderAddressInterface $senderAddress)
+    public function setSenderAddress(SenderAddressInterface $senderAddress = null)
     {
         $this->senderAddress = $senderAddress;
     }
