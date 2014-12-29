@@ -78,7 +78,7 @@ class Consignment implements ConsignmentInterface
     /**
      * @var bool
      */
-    protected $cod;
+    protected $cod = false;
 
     /**
      * @var float
