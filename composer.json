@@ -27,6 +27,11 @@
             "Webit\\Shipment\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Webit\\Shipment\\Feature\\": "features/bootstrap"
+        }
+    },
     "minimum-stability": "dev",
     "suggest": {
         "webit/php-tools": "JMS Serializer Support"

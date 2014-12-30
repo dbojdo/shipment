@@ -1,0 +1,8 @@
+default:
+    calls:
+        error_reporting: 16383
+
+    suites:
+        mapping:
+            paths:    [ %paths.base%/features/serializer ]
+            contexts: [ Webit\Shipment\Feature\MappingFeatureContext ]

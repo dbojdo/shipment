@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
-    <class name="Webit\Shipment\Model\Parcel\Parcel">
+    <class name="Webit\Shipment\Parcel\Parcel">
         <property name="consignment"
-          type="Webit\Bundle\ShipmentBundle\Entity\Consignment"
+          type="Webit\Shipment\Consignment\ConsignmentInterface"
           serialized-name="consignment"
           max-depth="1"
         />

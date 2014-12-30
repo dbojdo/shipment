@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
-    <class name="Webit\Shipment\Model\Consignment\DispatchConfirmation">
+    <class name="Webit\Shipment\Consignment\DispatchConfirmation">
         <property name="consignments"
                   serialized-name="consignments"
                   max-depth="1"
                   groups="consignments"
                 >
-            <type><![CDATA[ArrayCollection<Webit\Shipment\Model\Consignment\ConsignmentInterface>]]></type>
+            <type><![CDATA[ArrayCollection<Webit\Shipment\Consignment\ConsignmentInterface>]]></type>
         </property>
         <property name="number"
                   type="string"

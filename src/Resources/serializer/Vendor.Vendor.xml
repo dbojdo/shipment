@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
-    <class name="Webit\Shipment\Model\Vendor\Vendor">
+    <class name="Webit\Shipment\Vendor\Vendor">
         <property name="code"
                   type="string"
                   serialized-name="code"
@@ -14,11 +14,11 @@
                   serialized-name="description"
                 />
         <property name="consignmentOptions"
-                  type="Webit\Shipment\Model\Vendor\VendorOptionCollection"
+                  type="Webit\Shipment\Vendor\VendorOptionCollection"
                   serialized-name="consignment_options"
                 />
         <property name="parcelOptions"
-                  type="Webit\Shipment\Model\Vendor\VendorOptionCollection"
+                  type="Webit\Shipment\Vendor\VendorOptionCollection"
                   serialized-name="parcel_options"
                 />
         <property name="active"

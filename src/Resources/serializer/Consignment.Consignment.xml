@@ -47,7 +47,7 @@
         <property name="parcels"
                   serialized-name="parcels"
                 >
-            <type><![CDATA[ArrayCollection<Webit\Shipment\Model\Parcel\ParcelInterface>]]></type>
+            <type><![CDATA[ArrayCollection<Webit\Shipment\Parcel\ParcelInterface>]]></type>
         </property>
         <property name="cod"
                   type="boolean"
@@ -58,7 +58,7 @@
                   serialized-name="cod_amount"
                 />
         <property name="dispatchConfirmation"
-                  type="Webit\Shipment\Model\Consignment\DispatchConfirmationInterface"
+                  type="Webit\Shipment\Consignment\DispatchConfirmationInterface"
                   serialized-name="reference"
                 />
         <property name="createdAt"
