@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Webit\Shipment\Model\Vendor\VendorOptionValue">
+        <property name="optionCode"
+                  type="string"
+                  serialized-name="option_code"
+        />
+        <property name="value"
+                  type="mixed"
+                  serialized-name="value"
+        />
+    </class>
+</serializer>

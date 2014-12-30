@@ -16,10 +16,19 @@
         "doctrine/collections": "~1.2",
         "symfony/event-dispatcher": "~2.3"
     },
+    "require-dev": {
+        "jms/serializer": "~0.12",
+        "webit/php-tools": "dev-master",
+        "phpunit/phpunit": "~4.2",
+        "behat/behat": "~3.0"
+    },
     "autoload": {
         "psr-4": {
             "Webit\\Shipment\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "suggest": {
+        "webit/php-tools": "JMS Serializer Support"
+    }
 }

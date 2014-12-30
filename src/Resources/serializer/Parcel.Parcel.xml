@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Webit\Shipment\Model\Parcel\Parcel">
+        <property name="consignment"
+          type="Webit\Bundle\ShipmentBundle\Entity\Consignment"
+          serialized-name="consignment"
+          max-depth="1"
+        />
+        <property name="number"
+                  type="string"
+                  serialized-name="number"
+        />
+        <property name="weight"
+                  type="double"
+                  serialized-name="weight"
+        />
+        <property name="reference"
+                  type="string"
+                  serialized-name="reference"
+        />
+        <property name="vendorOptions"
+                  type="Webit\Shipment\Vendor\VendorOptionValueCollection"
+                  serialized-name="vendor_options"
+                  read-only="true"
+        />
+        <property name="vendorStatus"
+                  type="string"
+                  serialized-name="vendor_status"
+                  read-only="true"
+        />
+        <property name="status"
+                  type="string"
+                  serialized-name="status"
+                  read-only="true"
+        />
+    </class>
+</serializer>

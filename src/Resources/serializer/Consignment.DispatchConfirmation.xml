@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Webit\Shipment\Model\Consignment\DispatchConfirmation">
+        <property name="consignments"
+                  serialized-name="consignments"
+                  max-depth="1"
+                  groups="consignments"
+                >
+            <type><![CDATA[ArrayCollection<Webit\Shipment\Model\Consignment\ConsignmentInterface>]]></type>
+        </property>
+        <property name="number"
+                  type="string"
+                  serialized-name="number"
+                />
+        <property name="dispatchedAt"
+                  type="DateTime"
+                  serialized-name="dispatched_at"
+                  read-only="true"
+                />
+    </class>
+</serializer>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Webit\Shipment\Model\Consignment\Consignment">
+        <property name="id"
+                  type="string"
+                  serialized-name="id"
+                />
+        <property name="vendor"
+                  type="Webit\Shipment\Vendor\VendorInterface"
+                  serialized-name="vendor"
+                />
+        <property name="vendorOptions"
+                  type="Webit\Shipment\Vendor\VendorOptionCollection"
+                  serialized-name="vendor_options"
+                />
+
+        <property name="deliveryAddress"
+                  type="Webit\Shipment\Address\DeliveryAddressInterface"
+                  serialized-name="delivery_address"
+                  max-depth="1"
+                />
+        <property name="senderAddress"
+                  type="Webit\Shipment\Address\SenderAddressInterface"
+                  serialized-name="sender_address"
+                  max-depth="1"
+                />
+        <property name="vendorId"
+                  type="string"
+                  serialized-name="vendor_id"
+                />
+        <property name="vendorStatus"
+                  type="string"
+                  serialized-name="vendor_status"
+                />
+        <property name="status"
+                  type="string"
+                  serialized-name="status"
+                />
+        <property name="anonymous"
+                  type="boolean"
+                  serialized-name="anonymous"
+                />
+        <property name="reference"
+                  type="string"
+                  serialized-name="reference"
+                />
+        <property name="parcels"
+                  serialized-name="parcels"
+                >
+            <type><![CDATA[ArrayCollection<Webit\Shipment\Model\Parcel\ParcelInterface>]]></type>
+        </property>
+        <property name="cod"
+                  type="boolean"
+                  serialized-name="cod"
+                />
+        <property name="codAmount"
+                  type="double"
+                  serialized-name="cod_amount"
+                />
+        <property name="dispatchConfirmation"
+                  type="Webit\Shipment\Model\Consignment\DispatchConfirmationInterface"
+                  serialized-name="reference"
+                />
+        <property name="createdAt"
+                  type="DateTime"
+                  serialized-name="created_at"
+                  read-only="true"
+                />
+        <property name="updated_at"
+                  type="DateTime"
+                  serialized-name="updated_at"
+                  read-only="true"
+                />
+    </class>
+</serializer>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Webit\Shipment\Model\Vendor\Vendor">
+        <property name="code"
+                  type="string"
+                  serialized-name="code"
+                />
+        <property name="name"
+                  type="string"
+                  serialized-name="name"
+                />
+        <property name="description"
+                  type="string"
+                  serialized-name="description"
+                />
+        <property name="consignmentOptions"
+                  type="Webit\Shipment\Model\Vendor\VendorOptionCollection"
+                  serialized-name="consignment_options"
+                />
+        <property name="parcelOptions"
+                  type="Webit\Shipment\Model\Vendor\VendorOptionCollection"
+                  serialized-name="parcel_options"
+                />
+        <property name="active"
+                  type="boolean"
+                  serialized-name="active"
+                />
+        <property name="labelPrintModes"
+                  type="ArrayCollection"
+                  serialized-name="label_print_modes"
+                />
+        <property name="dispatchConfirmationPrintModes"
+                  type="ArrayCollection"
+                  serialized-name="dispatch_confirmation_print_modes"
+                />
+    </class>
+</serializer>
