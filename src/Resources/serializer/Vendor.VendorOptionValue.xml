@@ -8,6 +8,7 @@
         <property name="value"
                   type="mixed"
                   serialized-name="value"
+                  accessor-setter="setValue"
         />
     </class>
 </serializer>
