@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
-    <class name="Webit\Shipment\Model\Consignment\Consignment">
+    <class name="Webit\Shipment\Consignment\Consignment">
         <property name="id"
                   type="string"
                   serialized-name="id"
@@ -10,7 +10,7 @@
                   serialized-name="vendor"
                 />
         <property name="vendorOptions"
-                  type="Webit\Shipment\Vendor\VendorOptionCollection"
+                  type="Webit\Shipment\Vendor\VendorOptionValueCollection"
                   serialized-name="vendor_options"
                 />
 
@@ -27,14 +27,17 @@
         <property name="vendorId"
                   type="string"
                   serialized-name="vendor_id"
+                  read-only="true"
                 />
         <property name="vendorStatus"
                   type="string"
                   serialized-name="vendor_status"
+                  read-only="true"
                 />
         <property name="status"
                   type="string"
                   serialized-name="status"
+                  read-only="true"
                 />
         <property name="anonymous"
                   type="boolean"
@@ -59,7 +62,7 @@
                 />
         <property name="dispatchConfirmation"
                   type="Webit\Shipment\Consignment\DispatchConfirmationInterface"
-                  serialized-name="reference"
+                  serialized-name="dispatch_confirmation"
                 />
         <property name="createdAt"
                   type="DateTime"

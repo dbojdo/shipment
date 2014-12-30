@@ -48,14 +48,14 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
             $supported[] = array(
                 'format' => $format,
                 'type' => 'Webit\Shipment\Vendor\VendorOptionCollection',
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+                'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
                 'method' => 'deserializeVendorOptionCollection'
             );
 
             $supported[] = array(
                 'format' => $format,
                 'type' => 'Webit\Shipment\Vendor\VendorOptionValueCollection',
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+                'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
                 'method' => 'deserializeVendorOptionValueCollection'
             );
         }
@@ -80,7 +80,7 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
                 );
         }
 
-        $type[0] = 'array';
+        $type['name'] = 'array';
 
         return $context->accept($data, $type);
     }
@@ -89,7 +89,7 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
     {
         $collection = new VendorOptionCollection();
         foreach ($data as $option) {
-            $collection->addOption($context->accept($option, array('Webit\Shipment\Vendor\VendorOption')));
+            $collection->addOption($context->accept($option, array('name'=>'Webit\Shipment\Vendor\VendorOption')));
         }
 
         return $collection;
@@ -99,7 +99,7 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
     {
         $collection = new VendorOptionValueCollection();
         foreach ($data as $value) {
-            $collection->addValue($context->accept($value, array('Webit\Shipment\Vendor\VendorOptionValue')));
+            $collection->addValue($context->accept($value, array('name'=>'Webit\Shipment\Vendor\VendorOptionValue')));
         }
 
         return $collection;

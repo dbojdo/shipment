@@ -13,6 +13,7 @@ use Webit\Shipment\Address\DeliveryAddressInterface;
 use Webit\Shipment\Address\SenderAddressInterface;
 use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorInterface;
+use Webit\Shipment\Vendor\VendorOptionValueCollection;
 use Webit\Shipment\Vendor\VendorOptionValueInterface;
 
 /**
@@ -48,25 +49,9 @@ interface ConsignmentInterface
     public function setVendorId($vendorId);
 
     /**
-     * @return ArrayCollection
+     * @return VendorOptionValueCollection
      */
     public function getVendorOptions();
-
-    /**
-     * @param string $code
-     * @return VendorOptionValueInterface
-     */
-    public function getVendorOption($code);
-
-    /**
-     * @param VendorOptionValueInterface $vendorOptionValue
-     */
-    public function setVendorOption(VendorOptionValueInterface $vendorOptionValue);
-
-    /**
-     * @param VendorOptionValueInterface $vendorOptionValue
-     */
-    public function unsetVendorOption(VendorOptionValueInterface $vendorOptionValue);
 
     /**
      * @return string

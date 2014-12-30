@@ -28,24 +28,24 @@ class VendorOptionValueCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param VendorOptionInterface $option
+     * @param VendorOptionValueInterface $option
      */
-    public function addValue(VendorOptionInterface $option)
+    public function addValue(VendorOptionValueInterface $option)
     {
-        $this->values->set($option->getCode(), $option);
+        $this->values->set($option->getOptionCode(), $option);
     }
 
     /**
-     * @param VendorOptionInterface $option
+     * @param VendorOptionValueInterface $option
      */
-    public function removeValue(VendorOptionInterface $option)
+    public function removeValue(VendorOptionValueInterface $option)
     {
         $this->values->removeElement($option);
     }
 
     /**
      * @param $optionCode
-     * @return VendorOptionInterface
+     * @return VendorOptionValueInterface
      */
     public function getValue($optionCode)
     {

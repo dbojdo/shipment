@@ -9,10 +9,9 @@ namespace Webit\Shipment\Consignment;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Address\DeliveryAddressInterface;
 use Webit\Shipment\Address\SenderAddressInterface;
-use Webit\Shipment\Consignment\Exception\InvalidVendorOptionValueException;
 use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorInterface;
-use Webit\Shipment\Vendor\VendorOptionValueInterface;
+use Webit\Shipment\Vendor\VendorOptionValueCollection;
 
 /**
  * Class Consignment
@@ -31,7 +30,7 @@ class Consignment implements ConsignmentInterface
     protected $vendor;
 
     /**
-     * @var ArrayCollection
+     * @var VendorOptionValueCollection
      */
     protected $vendorOptions;
 
@@ -280,18 +279,10 @@ class Consignment implements ConsignmentInterface
     public function getVendorOptions()
     {
         if ($this->vendorOptions == null) {
-            $this->vendorOptions = new ArrayCollection();
+            $this->vendorOptions = new VendorOptionValueCollection();
         }
 
         return $this->vendorOptions;
-    }
-
-    /**
-     * @param ArrayCollection $vendorOptions
-     */
-    public function setVendorOptions($vendorOptions)
-    {
-        $this->vendorOptions = $vendorOptions;
     }
 
     /**
@@ -324,45 +315,6 @@ class Consignment implements ConsignmentInterface
     public function setVendorId($vendorId)
     {
         $this->vendorId = $vendorId;
-    }
-
-    /**
-     * @param string $code
-     * @return VendorOptionValueInterface
-     */
-    public function getVendorOption($code)
-    {
-        return $this->getVendorOptions()->get($code);
-    }
-
-    /**
-     * @param VendorOptionValueInterface $vendorOptionValue
-     */
-    public function setVendorOption(VendorOptionValueInterface $vendorOptionValue)
-    {
-        $option = $vendorOptionValue->getOption();
-        if (! $option || ! $option->getCode()) {
-            throw new InvalidVendorOptionValueException(
-                'Given vendor option value doesn\'t contain option or option code is empty.'
-            );
-        }
-
-        $this->getVendorOptions()->set($option->getCode(), $vendorOptionValue);
-    }
-
-    /**
-     * @param VendorOptionValueInterface $vendorOptionValue
-     */
-    public function unsetVendorOption(VendorOptionValueInterface $vendorOptionValue)
-    {
-        $option = $vendorOptionValue->getOption();
-        if (! $option || ! $option->getCode()) {
-            throw new InvalidVendorOptionValueException(
-                'Given vendor option value doesn\'t contain option or option code is empty.'
-            );
-        }
-
-        $this->getVendorOptions()->remove($option->getCode());
     }
 
     /**

@@ -14,7 +14,7 @@
                   serialized-name="description"
                 />
         <property name="allowedValues"
-                  type="array"
+                  type="ArrayCollection"
                   serialized-name="allowed_values"
                 />
     </class>
