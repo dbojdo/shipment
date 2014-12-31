@@ -97,6 +97,10 @@ class ConsignmentManager implements ConsignmentManagerInterface
         $event = new EventConsignment($consignment);
         $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENT_SAVE, $event);
 
+        if (! $consignment->getStatus()) {
+            $consignment->setStatus(ConsignmentStatusList::STATUS_NEW);
+        }
+
         try {
             $adapter->saveConsignment($consignment);
             $this->consignmentRepository->saveConsignment($consignment);
