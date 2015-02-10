@@ -12,6 +12,7 @@ use Webit\Shipment\Consignment\ConsignmentStatusList;
 use Webit\Shipment\Consignment\DispatchConfirmationRepositoryInterface;
 use Webit\Shipment\Event\EventConsignment;
 use Webit\Shipment\Event\Events;
+use Webit\Shipment\Manager\Exception\VendorAdapterException;
 use Webit\Shipment\Manager\Exception\VendorAdapterNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Consignment\DispatchConfirmationInterface;
@@ -78,7 +79,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $adapter->synchronizeConsignment($consignment);
             $this->consignmentRepository->saveConsignment($consignment);
         } catch (\Exception $e) {
-            throw $e;
+            throw new VendorAdapterException('Error during consignment synchronization.', null, $e);
         }
 
         $event = new EventConsignment($consignment);
@@ -105,7 +106,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $adapter->saveConsignment($consignment);
             $this->consignmentRepository->saveConsignment($consignment);
         } catch (\Exception $e) {
-            throw $e;
+            throw new VendorAdapterException('Error during consignment saving.', null, $e);
         }
 
         $event = new EventConsignment($consignment);
@@ -135,7 +136,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
 
                 $this->consignmentRepository->saveConsignment($consignment);
             } catch (\Exception $e) {
-                throw $e;
+                throw new VendorAdapterException('Error during consignments\' status synchronization.', null, $e);
             }
 
 
@@ -159,7 +160,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $adapter->removeConsignment($consignment);
             $this->consignmentRepository->removeConsignment($consignment);
         } catch (\Exception $e) {
-            throw $e;
+            throw new VendorAdapterException('Error during consignment removing.', null, $e);
         }
 
         $event = new EventConsignment($consignment);
@@ -208,7 +209,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 }
 
             } catch (\Exception $e) {
-                throw $e;
+                throw new VendorAdapterException('Error during consignments dispatching.', null, $e);
             }
         }
     }
@@ -233,7 +234,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
             $consignment->setStatus(ConsignmentStatusList::STATUS_CANCELED);
             $this->consignmentRepository->saveConsignment($consignment);
         } catch (\Exception $e) {
-            throw $e;
+            throw new VendorAdapterException('Error during consignment cancel.', null, $e);
         }
 
         $event = new EventConsignment($consignment);
