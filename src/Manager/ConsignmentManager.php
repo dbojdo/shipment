@@ -180,7 +180,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
 
             $adapter = $this->getAdapter($dispatchConfirmation->getConsignments()->first());
 
-            $adapter->dispatchConsignments($dispatchConfirmation);
+            $adapter->dispatch($dispatchConfirmation);
             $this->dispatchConfirmationRepository->saveDispatchConfirmation($dispatchConfirmation);
             foreach ($dispatchConfirmation->getConsignments() as $consignment) {
                 $consignment->setDispatchConfirmation($dispatchConfirmation);
