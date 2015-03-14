@@ -45,10 +45,9 @@ interface VendorAdapterInterface extends VendorFactoryInterface
     );
 
     /**
-     * @param ArrayCollection $consignments
-     * @return DispatchConfirmationInterface
+     * @param DispatchConfirmationInterface $dispatchConfirmation
      */
-    public function dispatchConsignments(ArrayCollection $consignments);
+    public function dispatch(DispatchConfirmationInterface $dispatchConfirmation);
 
     /**
      * Update consignment data with vendor's one

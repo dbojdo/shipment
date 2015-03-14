@@ -11,6 +11,7 @@ use Webit\Shipment\Consignment\ConsignmentRepositoryInterface;
 use Webit\Shipment\Consignment\ConsignmentStatusList;
 use Webit\Shipment\Consignment\DispatchConfirmationRepositoryInterface;
 use Webit\Shipment\Event\EventConsignment;
+use Webit\Shipment\Event\EventDispatchConfirmation;
 use Webit\Shipment\Event\Events;
 use Webit\Shipment\Manager\Exception\VendorAdapterException;
 use Webit\Shipment\Manager\Exception\VendorAdapterNotFoundException;
@@ -168,49 +169,35 @@ class ConsignmentManager implements ConsignmentManagerInterface
     }
 
     /**
-     * Prepare given consignments. Change status from new -> prepared
-     * @param ArrayCollection $consignments
-     * @throws \Exception
-     * @return DispatchConfirmationInterface
+     * Dispatches consignments with given DispatchConfirmation
+     * @param DispatchConfirmationInterface $dispatchConfirmation
      */
-    public function dispatchConsignments(ArrayCollection $consignments)
+    public function dispatch(DispatchConfirmationInterface $dispatchConfirmation)
     {
-        $consignmentsByVendor = new ArrayCollection();
+        try {
+            $event = new EventDispatchConfirmation($dispatchConfirmation);
+            $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENTS_DISPATCH, $event);
 
-        /** @var ConsignmentInterface $consignment */
-        foreach ($consignments as $consignment) {
-            $vendor = $consignment->getVendor();
-            if (! $consignmentsByVendor->containsKey($vendor->getCode())) {
-                $consignmentsByVendor->set($vendor->getCode(), new ArrayCollection());
-            }
-            $event = new EventConsignment($consignment);
-            $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENT_DISPATCH, $event);
-            $consignmentsByVendor->get($vendor->getCode())->add($consignment);
-        }
+            $adapter = $this->getAdapter($dispatchConfirmation->getConsignments()->first());
 
-        foreach ($consignmentsByVendor as $vendorCode => $consignments) {
-            $adapter = $this->getAdapter($consignments->first());
-            try {
-                $confirmation = $adapter->dispatchConsignments($consignments);
-                $this->dispatchConfirmationRepository->saveDispatchConfirmation($confirmation);
+            $adapter->dispatchConsignments($dispatchConfirmation);
+            $this->dispatchConfirmationRepository->saveDispatchConfirmation($dispatchConfirmation);
+            foreach ($dispatchConfirmation->getConsignments() as $consignment) {
+                $consignment->setDispatchConfirmation($dispatchConfirmation);
 
-                foreach ($consignments as $consignment) {
-                    $consignment->setDispatchConfirmation($confirmation);
-
-                    /** @var ParcelInterface $parcel */
-                    foreach ($consignment->getParcels() as $parcel) {
-                        $parcel->setStatus(ConsignmentStatusList::STATUS_DISPATCHED);
-                    }
-                    $consignment->setStatus(ConsignmentStatusList::STATUS_DISPATCHED);
-                    $this->consignmentRepository->saveConsignment($consignment);
-
-                    $event = new EventConsignment($consignment);
-                    $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENT_DISPATCH, $event);
+                /** @var ParcelInterface $parcel */
+                foreach ($consignment->getParcels() as $parcel) {
+                    $parcel->setStatus(ConsignmentStatusList::STATUS_DISPATCHED);
                 }
+                $consignment->setStatus(ConsignmentStatusList::STATUS_DISPATCHED);
 
-            } catch (\Exception $e) {
-                throw new VendorAdapterException('Error during consignments dispatching.', null, $e);
+                $this->consignmentRepository->saveConsignment($consignment);
             }
+
+            $event = new EventDispatchConfirmation($dispatchConfirmation);
+            $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENTS_DISPATCH, $event);
+        } catch (\Exception $e) {
+            throw new VendorAdapterException('Error during consignments dispatching.', null, $e);
         }
     }
 

@@ -30,8 +30,8 @@ final class Events
     const PRE_PARCEL_ADD = 'shipment.pre_parcel_add';
     const POST_PARCEL_ADD = 'shipment.post_parcel_add';
 
-    const PRE_CONSIGNMENT_DISPATCH = 'shipment.pre_consignment_dispatch';
-    const POST_CONSIGNMENT_DISPATCH = 'shipment.post_consignment_dispatch';
+    const PRE_CONSIGNMENTS_DISPATCH = 'shipment.pre_consignments_dispatch';
+    const POST_CONSIGNMENTS_DISPATCH = 'shipment.post_consignments_dispatch';
 
     const PRE_CONSIGNMENT_CANCEL = 'shipment.pre_consignment_cancel';
     const POST_CONSIGNMENT_CANCEL = 'shipment.post_consignment_cancel';

@@ -44,11 +44,10 @@ interface ConsignmentManagerInterface
     public function removeConsignment(ConsignmentInterface $consignment);
 
     /**
-     * Prepare given consignments. Change status from new -> prepared
-     * @param ArrayCollection $consignments
-     * @return DispatchConfirmationInterface
+     * Dispatches consignments with given DispatchConfirmation
+     * @param DispatchConfirmationInterface $dispatchConfirmation
      */
-    public function dispatchConsignments(ArrayCollection $consignments);
+    public function dispatch(DispatchConfirmationInterface $dispatchConfirmation);
 
     /**
      * Cancel given consignment. Allowed only in status different than "new".

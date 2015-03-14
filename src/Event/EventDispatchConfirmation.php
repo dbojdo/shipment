@@ -6,13 +6,14 @@
  
 namespace Webit\Shipment\Event;
 
+use Symfony\Component\EventDispatcher\Event;
 use Webit\Shipment\Consignment\DispatchConfirmationInterface;
 
 /**
  * Class EventDispatchConfirmation
  * @author Daniel Bojdo <daniel.bojdo@web-it.eu>
  */
-class EventDispatchConfirmation
+class EventDispatchConfirmation extends Event
 {
     /**
      * @var DispatchConfirmationInterface
