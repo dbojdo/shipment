@@ -160,6 +160,19 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
+     * @param string $reference
+     * @return ParcelInterface
+     */
+    public function findParcel($reference)
+    {
+        $parcels = $this->getParcels()->filter(function ($parcel) use ($reference) {
+            return $parcel->getReference() == $reference;
+        });
+
+        return $parcels->first();
+    }
+
+    /**
      * @return string
      */
     public function getReference()

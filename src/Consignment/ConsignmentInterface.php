@@ -114,6 +114,12 @@ interface ConsignmentInterface
     public function removeParcel(ParcelInterface $parcel);
 
     /**
+     * @param string $reference
+     * @return ParcelInterface
+     */
+    public function findParcel($reference);
+
+    /**
      * @return ArrayCollection
      */
     public function getParcels();
