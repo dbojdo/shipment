@@ -13,6 +13,7 @@ use Webit\Shipment\Consignment\DispatchConfirmationRepositoryInterface;
 use Webit\Shipment\Event\EventConsignment;
 use Webit\Shipment\Event\EventDispatchConfirmation;
 use Webit\Shipment\Event\Events;
+use Webit\Shipment\Manager\Exception\OperationNotPermittedException;
 use Webit\Shipment\Manager\Exception\VendorAdapterException;
 use Webit\Shipment\Manager\Exception\VendorAdapterNotFoundException;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -156,6 +157,16 @@ class ConsignmentManager implements ConsignmentManagerInterface
         $adapter = $this->getAdapter($consignment);
         $event = new EventConsignment($consignment);
         $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENT_REMOVE, $event);
+
+        if ($consignment->getStatus() != ConsignmentStatusList::STATUS_NEW) {
+            throw new OperationNotPermittedException(
+                sprintf(
+                    'Can not remove Consignment "%s" with status "%s"',
+                    $consignment->getId(),
+                    $consignment->getStatus()
+                )
+            );
+        }
 
         try {
             $adapter->removeConsignment($consignment);
