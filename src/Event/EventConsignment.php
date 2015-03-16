@@ -20,7 +20,7 @@ class EventConsignment extends Event
      */
     private $consignment;
 
-    public function __constructor(ConsignmentInterface $consignment)
+    public function __construct(ConsignmentInterface $consignment)
     {
         $this->consignment = $consignment;
     }
