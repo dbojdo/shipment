@@ -79,6 +79,16 @@ interface ConsignmentInterface
     public function isAnonymous();
 
     /**
+     * @return \DateTime
+     */
+    public function getAssigningDate();
+
+    /**
+     * @param \DateTime $assigningDate
+     */
+    public function setAssigningDate(\DateTime $assigningDate);
+
+    /**
      * @param bool $anonymous
      */
     public function setAnonymous($anonymous);

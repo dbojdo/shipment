@@ -55,6 +55,11 @@ class Consignment implements ConsignmentInterface
     protected $anonymous = false;
 
     /**
+     * @var \DateTime
+     */
+    protected $assigningDate;
+
+    /**
      * @var SenderAddressInterface
      */
     protected $senderAddress;
@@ -389,5 +394,21 @@ class Consignment implements ConsignmentInterface
                 $parcel->setConsignment($this);
             }
         }
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAssigningDate()
+    {
+        return $this->assigningDate;
+    }
+
+    /**
+     * @param \DateTime $assigningDate
+     */
+    public function setAssigningDate(\DateTime $assigningDate)
+    {
+        $this->assigningDate = $assigningDate;
     }
 }
