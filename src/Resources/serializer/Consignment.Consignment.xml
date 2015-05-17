@@ -67,6 +67,7 @@
         <property name="dispatchConfirmation"
                   type="Webit\Shipment\Consignment\DispatchConfirmationInterface"
                   serialized-name="dispatch_confirmation"
+                  max-depth="1"
                 />
         <property name="createdAt"
                   type="DateTime"
