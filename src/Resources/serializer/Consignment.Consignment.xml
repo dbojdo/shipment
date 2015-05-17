@@ -39,6 +39,10 @@
                   serialized-name="status"
                   read-only="true"
                 />
+        <property name="assigningDate"
+                  type="datetime"
+                  serialized-name="assigning_date"
+                />
         <property name="anonymous"
                   type="boolean"
                   serialized-name="anonymous"
