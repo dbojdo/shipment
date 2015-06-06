@@ -55,6 +55,13 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
             $supported[] = array(
                 'format' => $format,
                 'type' => 'Webit\Shipment\Vendor\VendorOptionValueCollection',
+                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+                'method' => 'serializeCollection'
+            );
+
+            $supported[] = array(
+                'format' => $format,
+                'type' => 'Webit\Shipment\Vendor\VendorOptionValueCollection',
                 'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
                 'method' => 'deserializeVendorOptionValueCollection'
             );
@@ -67,7 +74,7 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
     {
         switch (true) {
             case $data instanceof VendorOptionValueCollection:
-                $data = $data->getValues();
+                $data = array_values($data->getValues());
                 break;
             case $data instanceof VendorOptionCollection:
                 $data = $data->getOptions();
