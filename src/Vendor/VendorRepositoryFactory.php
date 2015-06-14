@@ -6,13 +6,14 @@
  
 namespace Webit\Shipment\Vendor;
 
+use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class VendorRepositoryInMemoryFactory
  * @author Daniel Bojdo <daniel.bojdo@web-it.eu>
  */
-class VendorRepositoryInMemoryFactory
+class VendorRepositoryFactory
 {
     /**
      * @var ArrayCollection
@@ -27,9 +28,19 @@ class VendorRepositoryInMemoryFactory
     /**
      * @return VendorRepositoryInMemory
      */
-    public function createVendorRepository()
+    public function createInMemoryRepository()
     {
         $repository = new VendorRepositoryInMemory($this->vendorFactories->toArray());
+
+        return $repository;
+    }
+
+    /**
+     * @return VendorRepositoryCached
+     */
+    public function createCachedRepository(Cache $cache)
+    {
+        $repository = new VendorRepositoryCached($cache, $this->vendorFactories->toArray());
 
         return $repository;
     }
