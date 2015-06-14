@@ -24,10 +24,6 @@ use Webit\Tools\Data\SorterCollection;
  */
 interface VendorAdapterInterface extends VendorFactoryInterface
 {
-    /**
-     * @return string
-     */
-    public function getVendorCode();
 
     /**
      * Returns consignments

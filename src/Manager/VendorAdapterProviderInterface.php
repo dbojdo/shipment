@@ -22,6 +22,7 @@ interface VendorAdapterProviderInterface
 
     /**
      * @param VendorAdapterInterface $vendorAdapter
+     * @param string $vendorCode
      */
-    public function registerVendorAdapter(VendorAdapterInterface $vendorAdapter);
+    public function registerVendorAdapter(VendorAdapterInterface $vendorAdapter, $vendorCode);
 }

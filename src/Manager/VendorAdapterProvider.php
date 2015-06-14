@@ -37,19 +37,20 @@ class VendorAdapterProvider implements VendorAdapterProviderInterface
 
     /**
      * @param VendorAdapterInterface $vendorAdapter
+     * @param string $vendorCode
      */
-    public function registerVendorAdapter(VendorAdapterInterface $vendorAdapter)
+    public function registerVendorAdapter(VendorAdapterInterface $vendorAdapter, $vendorCode)
     {
-        if ($this->vendorAdapters->containsKey($vendorAdapter->getVendorCode())) {
+        if ($this->vendorAdapters->containsKey($vendorCode)) {
             throw new VendorAdapterAlreadyRegisteredException(
                 sprintf(
-                    'Vendor adapter for vendor with code "%s" has been already registred.',
-                    $vendorAdapter->getVendorCode()
+                    'Vendor adapter for vendor with code "%s" has been already registered.',
+                    $vendorCode
                 )
             );
         }
 
-        $this->vendorAdapters->set($vendorAdapter->getVendorCode(), $vendorAdapter);
+        $this->vendorAdapters->set($vendorCode, $vendorAdapter);
     }
 
 }

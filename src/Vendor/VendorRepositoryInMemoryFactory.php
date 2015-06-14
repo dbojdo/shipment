@@ -29,21 +29,17 @@ class VendorRepositoryInMemoryFactory
      */
     public function createVendorRepository()
     {
-        $repository = new VendorRepositoryInMemory();
-
-        /** @var VendorFactoryInterface $factory */
-        foreach ($this->vendorFactories as $factory) {
-            $repository->addVendor($factory->createVendor());
-        }
+        $repository = new VendorRepositoryInMemory($this->vendorFactories->toArray());
 
         return $repository;
     }
 
     /**
      * @param VendorFactoryInterface $vendorFactory
+     * @param string $vendorCode
      */
-    public function addVendorFactory(VendorFactoryInterface $vendorFactory)
+    public function addVendorFactory(VendorFactoryInterface $vendorFactory, $vendorCode)
     {
-        $this->vendorFactories[] = $vendorFactory;
+        $this->vendorFactories->set($vendorCode, $vendorFactory);
     }
 }

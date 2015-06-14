@@ -1,37 +1,37 @@
 <?php
 /**
- * File: VendorRepositoryInMemory.php
- * Created at: 2014-11-21 06:16
+ * File VendorRepositoryCached.php
+ * Created at: 2015-06-14 06-35
+ *
+ * @author Daniel Bojdo <daniel.bojdo@web-it.eu>
  */
- 
+
 namespace Webit\Shipment\Vendor;
 
+use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Collections\ArrayCollection;
 use Webit\Shipment\Vendor\Exception\VendorFactoryNotFoundException;
 
-/**
- * Class VendorRepositoryInMemory
- * @author Daniel Bojdo <daniel.bojdo@web-it.eu>
- */
-class VendorRepositoryInMemory implements VendorRepositoryInterface
+class VendorRepositoryCached implements VendorRepositoryInterface
 {
+    /**
+     * @var Cache
+     */
+    private $cache;
+
     /**
      * @var VendorFactoryInterface[]
      */
     private $factories;
 
     /**
-     * @var ArrayCollection
-     */
-    private $vendors;
-
-    /**
+     * @param Cache $cache
      * @param VendorFactoryInterface[] $factories
      */
-    public function __construct(array $factories)
+    public function __construct(Cache $cache, array $factories)
     {
+        $this->cache = $cache;
         $this->factories = $factories;
-        $this->vendors = new ArrayCollection();
     }
 
     /**
@@ -40,16 +40,17 @@ class VendorRepositoryInMemory implements VendorRepositoryInterface
      */
     public function getVendor($code)
     {
-        if (! $this->vendors->contains($code)) {
+        $cacheKey = $this->createCacheKey($code);
+        if (! $this->cache->contains($cacheKey)) {
             $factory = isset($this->factories[$code]) ? $this->factories[$code] : null;
             if (! $factory) {
                 throw new VendorFactoryNotFoundException(sprintf('Could not find Vendor Factory for code "%s"', $code));
             }
 
-            $this->vendors->set($code, $factory->createVendor());
+            $this->cache->save($cacheKey, $factory->createVendor());
         }
 
-        return $this->vendors->get($code);
+        return $this->cache->fetch($cacheKey);
     }
 
     /**
@@ -63,5 +64,14 @@ class VendorRepositoryInMemory implements VendorRepositoryInterface
         }
 
         return new ArrayCollection($vendors);
+    }
+
+    /**
+     * @param string $code
+     * @return string
+     */
+    private function createCacheKey($code)
+    {
+        return 'webit_shipment_vendor_' . $code;
     }
 }

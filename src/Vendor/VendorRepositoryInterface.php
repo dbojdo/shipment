@@ -23,15 +23,4 @@ interface VendorRepositoryInterface
      * @return ArrayCollection
      */
     public function getVendors();
-
-    /**
-     * @param VendorInterface $vendor
-     */
-    public function addVendor(VendorInterface $vendor);
-
-    /**
-     * @param VendorInterface $vendor
-     */
-    public function removeVendor(VendorInterface $vendor);
 }
- 
