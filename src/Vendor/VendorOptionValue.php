@@ -1,6 +1,8 @@
 <?php
 namespace Webit\Shipment\Vendor;
 
+use Webit\Tools\Serializer\MixedValueWrapper;
+
 class VendorOptionValue implements VendorOptionValueInterface
 {
     /**
@@ -34,7 +36,7 @@ class VendorOptionValue implements VendorOptionValueInterface
      */
     public function getValue()
     {
-        return $this->value;
+        return ($this->value instanceof MixedValueWrapper) ? $this->value->getValue() : $this->value;
     }
 
     /**
