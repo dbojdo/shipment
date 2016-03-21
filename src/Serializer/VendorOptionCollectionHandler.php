@@ -8,16 +8,36 @@
 
 namespace Webit\Shipment\Serializer;
 
-
 use JMS\Serializer\Context;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\VisitorInterface;
-use Webit\Shipment\Vendor\VendorOptionCollection;
-use Webit\Shipment\Vendor\VendorOptionValueCollection;
 
 class VendorOptionCollectionHandler implements SubscribingHandlerInterface
 {
+    /**
+     * @var VendorOptionCollectionNormaliser
+     */
+    private $vendorOptionCollectionNormaliser;
+
+    /**
+     * @var VendorOptionValueCollectionNormaliser
+     */
+    private $vendorOptionValueCollectionNormaliser;
+
+    /**
+     * VendorOptionCollectionHandler constructor.
+     * @param VendorOptionCollectionNormaliser $vendorOptionCollectionSerialiser
+     * @param VendorOptionValueCollectionNormaliser $vendorOptionValueCollectionSerialiser
+     */
+    public function __construct(
+        VendorOptionCollectionNormaliser $vendorOptionCollectionSerialiser,
+        VendorOptionValueCollectionNormaliser $vendorOptionValueCollectionSerialiser
+    ) {
+        $this->vendorOptionCollectionNormaliser = $vendorOptionCollectionSerialiser;
+        $this->vendorOptionValueCollectionNormaliser = $vendorOptionValueCollectionSerialiser;
+    }
+
     /**
      * Return format:
      *
@@ -42,7 +62,7 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
                 'format' => $format,
                 'type' => 'Webit\Shipment\Vendor\VendorOptionCollection',
                 'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'method' => 'serializeCollection'
+                'method' => 'serializeOptionCollection'
             );
 
             $supported[] = array(
@@ -56,7 +76,7 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
                 'format' => $format,
                 'type' => 'Webit\Shipment\Vendor\VendorOptionValueCollection',
                 'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'method' => 'serializeCollection'
+                'method' => 'serializeOptionValueCollection'
             );
 
             $supported[] = array(
@@ -70,45 +90,59 @@ class VendorOptionCollectionHandler implements SubscribingHandlerInterface
         return $supported;
     }
 
-    public function serializeCollection(VisitorInterface $visitor, $data, $type, Context $context)
+    /**
+     * @param VisitorInterface $visitor
+     * @param $data
+     * @param $type
+     * @param Context $context
+     * @return array|null
+     */
+    public function serializeOptionCollection(VisitorInterface $visitor, $data, $type, Context $context)
     {
-        switch (true) {
-            case $data instanceof VendorOptionValueCollection:
-                $data = array_values($data->getValues());
-                break;
-            case $data instanceof VendorOptionCollection:
-                $data = $data->getOptions();
-                break;
-            default:
-                throw new \UnexpectedValueException(
-                    sprintf(
-                        'Unsupported type: "%s"', is_object($data) ? get_class($data) : gettype($data)
-                    )
-                );
+        if ($data) {
+            return $this->vendorOptionCollectionNormaliser->normalise($data);
         }
 
-        $type['name'] = 'array';
-
-        return $context->accept($data, $type);
+        return null;
     }
 
+    /**
+     * @param VisitorInterface $visitor
+     * @param $data
+     * @param $type
+     * @param Context $context
+     * @return array|null
+     */
+    public function serializeOptionValueCollection(VisitorInterface $visitor, $data, $type, Context $context)
+    {
+        if ($data) {
+            return $this->vendorOptionValueCollectionNormaliser->normalise($data);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param VisitorInterface $visitor
+     * @param $data
+     * @param $type
+     * @param Context $context
+     * @return \Webit\Shipment\Serializer\VendorOptionCollection
+     */
     public function deserializeVendorOptionCollection(VisitorInterface $visitor, $data, $type, Context $context)
     {
-        $collection = new VendorOptionCollection();
-        foreach ($data as $option) {
-            $collection->addOption($context->accept($option, array('name'=>'Webit\Shipment\Vendor\VendorOption')));
-        }
-
-        return $collection;
+        return $this->vendorOptionCollectionNormaliser->denormalise($data);
     }
 
+    /**
+     * @param VisitorInterface $visitor
+     * @param $data
+     * @param $type
+     * @param Context $context
+     * @return \Webit\Shipment\Serializer\VendorOptionCollection
+     */
     public function deserializeVendorOptionValueCollection(VisitorInterface $visitor, $data, $type, Context $context)
     {
-        $collection = new VendorOptionValueCollection();
-        foreach ($data as $value) {
-            $collection->addValue($context->accept($value, array('name'=>'Webit\Shipment\Vendor\VendorOptionValue')));
-        }
-
-        return $collection;
+        return $this->vendorOptionValueCollectionNormaliser->denormalise($data);
     }
 }

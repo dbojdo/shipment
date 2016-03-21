@@ -145,7 +145,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|ParcelInterface[]
      */
     public function getParcels()
     {
@@ -388,7 +388,6 @@ class Consignment implements ConsignmentInterface
 
     public function ensureParcelsRelation()
     {
-        /** @var ParcelInterface $parcel */
         foreach ($this->getParcels() as $parcel) {
             if (! $parcel->getConsignment()) {
                 $parcel->setConsignment($this);

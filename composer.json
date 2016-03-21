@@ -18,8 +18,8 @@
     },
     "require-dev": {
         "jms/serializer": "~1.0",
-        "webit/php-tools": "dev-master",
-        "phpunit/phpunit": "~4.2",
+        "phpunit/phpunit": "~4.8",
+        "doctrine/dbal": "~2.3",
         "behat/behat": "~3.0"
     },
     "autoload": {
@@ -33,7 +33,14 @@
         }
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "suggest": {
-        "webit/php-tools": "JMS Serializer Support"
+        "webit/php-tools": "JMS Serializer Support",
+        "doctrine/dbal": "To Doctrine DBAL Types"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
     }
 }

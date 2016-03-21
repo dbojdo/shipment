@@ -100,11 +100,11 @@ Feature: Serializer model mapping
     """
     {"id":"123","vendor":{"code":"vendor_code"},
     "delivery_address":{"name":"Address Name","address":"Address"},
-    "vendor_options":[
-    {"option_code":"option-1","value":true},
-    {"option_code":"option-2","value":"value2"},
-    {"option_code":"option-3","value":["val-1","val-2"]}
-    ],
+    "vendor_options":{
+    "option-1":true,
+    "option-2":"value2",
+    "option-3":["val-1","val-2"]
+    },
     "sender_address":{"name":"SenderAddress Name","address":"SenderAddress"},
     "anonymous":true,
     "reference":"reference number",

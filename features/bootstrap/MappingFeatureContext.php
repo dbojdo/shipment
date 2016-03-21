@@ -13,8 +13,12 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use Webit\Shipment\Consignment\ConsignmentInterface;
 use Webit\Shipment\Serializer\VendorOptionCollectionHandler;
+use Webit\Shipment\Serializer\VendorOptionCollectionNormaliser;
+use Webit\Shipment\Serializer\VendorOptionValueCollectionNormaliser;
 use Webit\Shipment\Vendor\VendorInterface;
 use Webit\Shipment\Vendor\VendorOptionCollection;
+use Webit\Shipment\Vendor\VendorOptionValue;
+use Webit\Shipment\Vendor\VendorOptionValueCollection;
 use Webit\Tools\Serializer\MixedTypeHandler;
 use Webit\Tools\Serializer\TypeAliasHandler;
 
@@ -48,14 +52,16 @@ class MappingFeatureContext implements Context, SnippetAcceptingContext
      */
     public function thereIsFollowingSerializerMapping(TableNode $table)
     {
-//        die(var_dump(json_encode(array('dupa'=>array('cycki-1', 'cucki-2')))));
         AnnotationRegistry::registerAutoloadNamespace('JMS\\Serializer\\Annotation\\', __DIR__.'/../../vendor/jms/serializer/src');
 
         $builder = SerializerBuilder::create();
         $builder->addMetadataDir(__DIR__.'/../../src/Resources/serializer', 'Webit\Shipment');
         $builder->addDefaultHandlers();
         $builder->configureHandlers(function (HandlerRegistryInterface $handlerRegistry) {
-            $handler = new VendorOptionCollectionHandler();
+            $handler = new VendorOptionCollectionHandler(
+                new VendorOptionCollectionNormaliser(),
+                new VendorOptionValueCollectionNormaliser()
+            );
             $methods = VendorOptionCollectionHandler::getSubscribingMethods();
             foreach ($methods as $method) {
                 $handlerRegistry->registerHandler($method['direction'], $method['type'], $method['format'], array($handler, $method['method']));
@@ -257,9 +263,10 @@ class MappingFeatureContext implements Context, SnippetAcceptingContext
 
     private function checkVendorOptions(ConsignmentInterface $consignmentInterface, TableNode $table)
     {
-        $options = $consignmentInterface->getVendorOptions();
+        $expected = new VendorOptionValueCollection();
         foreach ($table as $key => $properties) {
-            $option = $options->getValue($properties['optionCode']);
+            $option = new VendorOptionValue($properties['optionCode']);
+
             if ($properties['value'] == 'true') {
                 $properties['value'] = true;
             }
@@ -267,7 +274,13 @@ class MappingFeatureContext implements Context, SnippetAcceptingContext
             if (preg_match('/,/', $properties['value'])) {
                 $properties['value'] = explode(',', $properties['value']);
             }
-            $this->checkProperties($option, $properties);
+            $option->setValue($properties['value']);
+            $expected->addValue($option);
         }
+
+        \PHPUnit_Framework_Assert::assertEquals(
+            $expected,
+            $consignmentInterface->getVendorOptions()
+        );
     }
 }
