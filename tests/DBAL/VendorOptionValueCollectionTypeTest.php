@@ -62,7 +62,7 @@ class VendorOptionValueCollectionTypeTest extends \PHPUnit_Framework_TestCase
     public function shouldConvertToPHPValue($collection, $normalised)
     {
         $value = $this->type->convertToPHPValue(
-            json_encode($normalised),
+            $normalised === null ? null : json_encode($normalised),
             $this->platform
         );
 

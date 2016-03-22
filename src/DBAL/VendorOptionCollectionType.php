@@ -32,12 +32,12 @@ class VendorOptionCollectionType extends JsonArrayType
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $normalised = parent::convertToPHPValue($value, $platform);
-        if ($normalised) {
-            return $this->normaliser()->denormalise($normalised);
+        if ($value === null) {
+            return null;
         }
 
-        return $normalised;
+        $normalised = parent::convertToPHPValue($value, $platform);
+        return $this->normaliser()->denormalise($normalised);
     }
 
     /**
