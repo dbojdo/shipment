@@ -17,10 +17,12 @@ class VendorOptionValue implements VendorOptionValueInterface
 
     /**
      * @param string $optionCode
+     * @param mixed $value
      */
-    public function __construct($optionCode)
+    public function __construct($optionCode, $value = null)
     {
         $this->optionCode = $optionCode;
+        $this->value = $value;
     }
 
     /**

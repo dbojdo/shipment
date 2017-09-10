@@ -79,14 +79,14 @@ interface VendorAdapterInterface extends VendorFactoryInterface
     /**
      * @param ConsignmentInterface $consignment
      * @param string $mode
-     * @return \SplFileInfo
+     * @return string
      */
     public function getConsignmentLabel(ConsignmentInterface $consignment, $mode = null);
 
     /**
      * @param DispatchConfirmationInterface $dispatchConfirmation
      * @param string $mode
-     * @return \SplFileInfo
+     * @return string
      */
     public function getConsignmentDispatchConfirmationLabel(
         DispatchConfirmationInterface $dispatchConfirmation,
@@ -96,7 +96,7 @@ interface VendorAdapterInterface extends VendorFactoryInterface
     /**
      * @param DispatchConfirmationInterface $dispatchConfirmation
      * @param string $mode
-     * @return \SplFileInfo
+     * @return string
      */
     public function getConsignmentDispatchConfirmationReceipt(
         DispatchConfirmationInterface $dispatchConfirmation,

@@ -11,21 +11,28 @@ namespace Webit\Shipment\Manager;
 use Webit\Shipment\Consignment\ConsignmentInterface;
 use Webit\Shipment\Consignment\DispatchConfirmationInterface;
 use Webit\Shipment\Manager\Exception\VendorNotFoundException;
+use Webit\Shipment\Vendor\VendorInterface;
 
 class PrintManager implements PrintManagerInterface
 {
-
     /**
      * @var VendorAdapterProviderInterface
      */
     private $adapterProvider;
 
     /**
-     * @param VendorAdapterProviderInterface $adapterProvider
+     * @var string
      */
-    public function __construct(VendorAdapterProviderInterface $adapterProvider)
+    private $directory;
+
+    /**
+     * @param VendorAdapterProviderInterface $adapterProvider
+     * @param null $directory
+     */
+    public function __construct(VendorAdapterProviderInterface $adapterProvider, $directory = null)
     {
         $this->adapterProvider = $adapterProvider;
+        $this->directory = $directory ?: sys_get_temp_dir();
     }
 
     /**
@@ -34,17 +41,10 @@ class PrintManager implements PrintManagerInterface
      */
     public function getDispatchConfirmationReceipt(DispatchConfirmationInterface $dispatchConfirmation)
     {
-        $vendor = $this->getVendor($dispatchConfirmation);
-        if (! $vendor) {
-            throw new VendorNotFoundException(
-                sprintf('Can not find Vendor for DispatchConfirmation with number "%d"', $dispatchConfirmation->getNumber())
-            );
-        }
-
-        $adapter = $this->adapterProvider->getVendorAdapter($vendor);
+        $adapter = $this->getVendorAdapterFromDispatchConfirmation($dispatchConfirmation);
         $receipt = $adapter->getConsignmentDispatchConfirmationReceipt($dispatchConfirmation);
 
-        return $receipt;
+        return $this->dump($receipt, 'receipt');
     }
 
     /**
@@ -53,17 +53,10 @@ class PrintManager implements PrintManagerInterface
      */
     public function getDispatchConfirmationLabels(DispatchConfirmationInterface $dispatchConfirmation)
     {
-        $vendor = $this->getVendor($dispatchConfirmation);
-        if (! $vendor) {
-            throw new VendorNotFoundException(
-                sprintf('Can not find Vendor for DispatchConfirmation with number "%d"', $dispatchConfirmation->getNumber())
-            );
-        }
-
-        $adapter = $this->adapterProvider->getVendorAdapter($vendor);
+        $adapter = $this->getVendorAdapterFromDispatchConfirmation($dispatchConfirmation);
         $labels = $adapter->getConsignmentDispatchConfirmationLabel($dispatchConfirmation);
 
-        return $labels;
+        return $this->dump($labels, 'labels');
     }
 
     /**
@@ -72,28 +65,52 @@ class PrintManager implements PrintManagerInterface
      */
     public function getConsignmentLabel(ConsignmentInterface $consignment)
     {
-        $vendor = $consignment->getVendor();
-        if (! $vendor) {
-            throw new VendorNotFoundException(
-                sprintf('Can not find Vendor for Consignment with ID "%d"', $consignment->getId())
-            );
-        }
+        $adapter = $this->vendorAdapter($consignment->getVendor());
 
-        $adapter = $this->adapterProvider->getVendorAdapter($vendor);
         $labels = $adapter->getConsignmentLabel($consignment);
 
-        return $labels;
+        return $this->dump($labels, 'labels');
     }
 
     /**
      * @param DispatchConfirmationInterface $dispatchConfirmation
-     * @return \Webit\Shipment\Vendor\VendorInterface
+     * @return VendorAdapterInterface
      */
-    private function getVendor(DispatchConfirmationInterface $dispatchConfirmation)
+    private function getVendorAdapterFromDispatchConfirmation(DispatchConfirmationInterface $dispatchConfirmation)
     {
         /** @var ConsignmentInterface $consignment */
         $consignment = $dispatchConfirmation->getConsignments()->first();
 
-        return $consignment ? $consignment->getVendor() : null;
+        if (!($consignment && $consignment->getVendor())) {
+            throw new VendorNotFoundException(
+                sprintf(
+                    'Can not find Vendor for DispatchConfirmation with number "%d"',
+                    $dispatchConfirmation->getNumber()
+                )
+            );
+        }
+
+        return $this->vendorAdapter($consignment->getVendor());
+    }
+
+    /**
+     * @param VendorInterface $vendor
+     * @return VendorAdapterInterface
+     */
+    private function vendorAdapter(VendorInterface $vendor)
+    {
+        return $this->adapterProvider->getVendorAdapter($vendor);
+    }
+
+    /**
+     * @param string $data
+     * @param string $type
+     * @return \SplFileInfo
+     */
+    private function dump($data, $type)
+    {
+        $result = @file_put_contents($file = tempnam($this->directory, $type . '_'), $data);
+
+        return new \SplFileInfo($file);
     }
 }

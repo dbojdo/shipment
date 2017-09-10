@@ -27,7 +27,7 @@ interface DispatchConfirmationInterface
     public function setNumber($number);
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|ConsignmentInterface[]
      */
     public function getConsignments();
 
@@ -40,4 +40,40 @@ interface DispatchConfirmationInterface
      * @param \DateTime $dispatchedAt
      */
     public function setDispatchedAt(\DateTime $dispatchedAt);
+
+    /**
+     * @return \DateTime
+     */
+    public function getPickUpAt();
+
+    /**
+     * @param \DateTime $pickUpAt
+     */
+    public function setPickUpAt(\DateTime $pickUpAt);
+
+    /**
+     * @return bool
+     */
+    public function isCourierCalled();
+
+    /**
+     * @param bool $courierCalled
+     */
+    public function setCourierCalled($courierCalled);
+
+    /**
+     * @return array
+     */
+    public function getVendorData();
+
+    /**
+     * @param array $data
+     */
+    public function setVendorData(array $data);
+
+    /**
+     * @param string $key
+     * @param mixed $data
+     */
+    public function addVendorData($key, $data);
 }

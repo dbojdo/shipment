@@ -14,13 +14,12 @@ use Webit\Shipment\Address\SenderAddressInterface;
 use Webit\Shipment\Parcel\ParcelInterface;
 use Webit\Shipment\Vendor\VendorInterface;
 use Webit\Shipment\Vendor\VendorOptionValueCollection;
-use Webit\Shipment\Vendor\VendorOptionValueInterface;
 
 /**
  * Interface ConsignmentInterface
  * @package Webit\Shipment\Consignment
  */
-interface ConsignmentInterface
+interface ConsignmentInterface extends \IteratorAggregate
 {
 
     /**
@@ -79,16 +78,6 @@ interface ConsignmentInterface
     public function isAnonymous();
 
     /**
-     * @return \DateTime
-     */
-    public function getAssigningDate();
-
-    /**
-     * @param \DateTime $assigningDate
-     */
-    public function setAssigningDate(\DateTime $assigningDate);
-
-    /**
      * @param bool $anonymous
      */
     public function setAnonymous($anonymous);
@@ -130,7 +119,7 @@ interface ConsignmentInterface
     public function findParcel($reference);
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|ParcelInterface[]
      */
     public function getParcels();
 
@@ -188,4 +177,20 @@ interface ConsignmentInterface
      * @return \DateTime
      */
     public function getUpdatedAt();
+
+    /**
+     * @return array
+     */
+    public function getVendorData();
+
+    /**
+     * @param array $data
+     */
+    public function setVendorData(array $data);
+
+    /**
+     * @param string $key
+     * @param mixed $data
+     */
+    public function addVendorData($key, $data);
 }

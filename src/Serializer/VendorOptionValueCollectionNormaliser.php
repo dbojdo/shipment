@@ -20,12 +20,16 @@ class VendorOptionValueCollectionNormaliser
     public function normalise(VendorOptionValueCollection $vendorOptionValueCollection)
     {
         $normalised = array();
+
         /**
          * @var string $key
          * @var VendorOptionValue $value
          */
-        foreach ($vendorOptionValueCollection as $key => $value) {
-            $normalised[$key] = $value->getValue();
+        foreach ($vendorOptionValueCollection as $value) {
+            $normalised[] = array(
+                'option_code' => $value->getOptionCode(),
+                'value' => $value->getValue()
+            );
         }
 
         return $normalised;
@@ -33,17 +37,15 @@ class VendorOptionValueCollectionNormaliser
 
     /**
      * @param array $normalised
-     * @return VendorOptionCollection
+     * @return VendorOptionValueCollection
      */
     public function denormalise($normalised)
     {
-        $optionValues = new VendorOptionValueCollection();
-        foreach ($normalised as $key => $value) {
-            $optionValue = new VendorOptionValue($key);
-            $optionValue->setValue($value);
-            $optionValues->addValue($optionValue);
+        $values = array();
+        foreach ($normalised as $option) {
+            $values[] = new VendorOptionValue($option['option_code'], $option['value']);
         }
 
-        return $optionValues;
+        return new VendorOptionValueCollection($values);
     }
 }

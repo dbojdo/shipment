@@ -193,6 +193,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
 
             $adapter->dispatch($dispatchConfirmation);
             $this->dispatchConfirmationRepository->saveDispatchConfirmation($dispatchConfirmation);
+
             foreach ($dispatchConfirmation->getConsignments() as $consignment) {
                 $consignment->setDispatchConfirmation($dispatchConfirmation);
 

@@ -11,11 +11,26 @@
         <property name="number"
                   type="string"
                   serialized-name="number"
+                  read-only="true"
                 />
         <property name="dispatchedAt"
                   type="DateTime"
                   serialized-name="dispatched_at"
                   read-only="true"
+                />
+
+        <property name="vendorData"
+                  type="array"
+                  serialized-name="vendor_data"
+                  read-only="true"
+                />
+        <property name="courierCalled"
+                  type="boolean"
+                  serialized-name="courier_called"
+        />
+        <property name="pickUpAt"
+                  type="DateTime"
+                  serialized-name="pick_up_at"
                 />
     </class>
 </serializer>

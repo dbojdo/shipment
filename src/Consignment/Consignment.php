@@ -45,6 +45,11 @@ class Consignment implements ConsignmentInterface
     protected $vendorId;
 
     /**
+     * @var array
+     */
+    protected $vendorData = array();
+
+    /**
      * @var string
      */
     protected $status;
@@ -53,11 +58,6 @@ class Consignment implements ConsignmentInterface
      * @var bool
      */
     protected $anonymous = false;
-
-    /**
-     * @var \DateTime
-     */
-    protected $assigningDate;
 
     /**
      * @var SenderAddressInterface
@@ -70,7 +70,7 @@ class Consignment implements ConsignmentInterface
     protected $deliveryAddress;
 
     /**
-     * @var ArrayCollection
+     * @var ArrayCollection|ParcelInterface[]
      */
     protected $parcels;
 
@@ -105,7 +105,7 @@ class Consignment implements ConsignmentInterface
     protected $updatedAt;
 
     /**
-     * @return DeliveryAddressInterface
+     * @inheritdoc
      */
     public function getDeliveryAddress()
     {
@@ -113,7 +113,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param DeliveryAddressInterface $deliveryAddress
+     * @inheritdoc
      */
     public function setDeliveryAddress(DeliveryAddressInterface $deliveryAddress)
     {
@@ -121,7 +121,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return DispatchConfirmationInterface
+     * @inheritdoc
      */
     public function getDispatchConfirmation()
     {
@@ -129,7 +129,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param DispatchConfirmationInterface $dispatchConfirmation
+     * @inheritdoc
      */
     public function setDispatchConfirmation(DispatchConfirmationInterface $dispatchConfirmation = null)
     {
@@ -137,7 +137,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return mixed
+     * @inheritdoc
      */
     public function getId()
     {
@@ -145,7 +145,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return ArrayCollection|ParcelInterface[]
+     * @inheritdoc
      */
     public function getParcels()
     {
@@ -157,7 +157,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param ArrayCollection $parcels
+     * @inheritdoc
      */
     public function setParcels($parcels)
     {
@@ -165,8 +165,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param string $reference
-     * @return ParcelInterface
+     * @inheritdoc
      */
     public function findParcel($reference)
     {
@@ -178,7 +177,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getReference()
     {
@@ -186,7 +185,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param string $reference
+     * @inheritdoc
      */
     public function setReference($reference)
     {
@@ -195,7 +194,7 @@ class Consignment implements ConsignmentInterface
 
 
     /**
-     * @return bool
+     * @inheritdoc
      */
     public function isAnonymous()
     {
@@ -203,7 +202,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param bool $anonymous
+     * @inheritdoc
      */
     public function setAnonymous($anonymous)
     {
@@ -211,7 +210,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return SenderAddressInterface
+     * @inheritdoc
      */
     public function getSenderAddress()
     {
@@ -219,7 +218,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param SenderAddressInterface $senderAddress
+     * @inheritdoc
      */
     public function setSenderAddress(SenderAddressInterface $senderAddress = null)
     {
@@ -227,7 +226,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getStatus()
     {
@@ -235,7 +234,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param string $status
+     * @inheritdoc
      */
     public function setStatus($status)
     {
@@ -243,7 +242,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return boolean
+     * @inheritdoc
      */
     public function isCod()
     {
@@ -251,7 +250,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param boolean $cod
+     * @inheritdoc
      */
     public function setCod($cod)
     {
@@ -259,7 +258,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return float
+     * @inheritdoc
      */
     public function getCodAmount()
     {
@@ -267,7 +266,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param float $codAmount
+     * @inheritdoc
      */
     public function setCodAmount($codAmount)
     {
@@ -276,7 +275,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return VendorInterface
+     * @inheritdoc
      */
     public function getVendor()
     {
@@ -284,7 +283,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param VendorInterface $vendor
+     * @inheritdoc
      */
     public function setVendor(VendorInterface $vendor)
     {
@@ -292,7 +291,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @inheritdoc
      */
     public function getVendorOptions()
     {
@@ -304,7 +303,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getVendorStatus()
     {
@@ -312,7 +311,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param string $vendorStatus
+     * @inheritdoc
      */
     public function setVendorStatus($vendorStatus)
     {
@@ -320,7 +319,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getVendorId()
     {
@@ -328,7 +327,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param string $vendorId
+     * @inheritdoc
      */
     public function setVendorId($vendorId)
     {
@@ -336,7 +335,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param ParcelInterface $parcel
+     * @inheritdoc
      */
     public function addParcel(ParcelInterface $parcel)
     {
@@ -347,7 +346,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @param ParcelInterface $parcel
+     * @inheritdoc
      */
     public function removeParcel(ParcelInterface $parcel)
     {
@@ -357,7 +356,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return float
+     * @inheritdoc
      */
     public function getWeight()
     {
@@ -371,7 +370,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return \DateTime
+     * @inheritdoc
      */
     public function getCreatedAt()
     {
@@ -379,7 +378,7 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return \DateTime
+     * @inheritdoc
      */
     public function getUpdatedAt()
     {
@@ -396,18 +395,36 @@ class Consignment implements ConsignmentInterface
     }
 
     /**
-     * @return \DateTime
+     * @inheritdoc
      */
-    public function getAssigningDate()
+    public function getVendorData()
     {
-        return $this->assigningDate;
+        return $this->vendorData ?: array();
     }
 
     /**
-     * @param \DateTime $assigningDate
+     * @inheritdoc
      */
-    public function setAssigningDate(\DateTime $assigningDate)
+    public function setVendorData(array $data)
     {
-        $this->assigningDate = $assigningDate;
+        $this->vendorData = $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIterator()
+    {
+        return $this->getParcels()->getIterator();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addVendorData($key, $data)
+    {
+        $vendorData = $this->getVendorData();
+        $vendorData[$key] = $data;
+        $this->setVendorData($vendorData);
     }
 }

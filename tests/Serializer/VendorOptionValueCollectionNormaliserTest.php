@@ -27,9 +27,13 @@ class VendorOptionValueCollectionNormaliserTest extends \PHPUnit_Framework_TestC
     /**
      * @test
      * @dataProvider data
+     * @param VendorOptionValueCollection $collection
+     * @param array $normalised
      */
-    public function shouldNormaliseVendorOptionValueCollection(VendorOptionValueCollection $collection, array $normalised)
-    {
+    public function shouldNormaliseVendorOptionValueCollection(
+        VendorOptionValueCollection $collection,
+        array $normalised
+    ) {
         $this->assertEquals($normalised, $this->normaliser->normalise($collection));
     }
 
@@ -39,32 +43,36 @@ class VendorOptionValueCollectionNormaliserTest extends \PHPUnit_Framework_TestC
      * @test
      * @dataProvider data
      */
-    public function shouldDenormaliseVendorOptionValueCollection(VendorOptionValueCollection $collection, array $normalised)
-    {
+    public function shouldDenormaliseVendorOptionValueCollection(
+        VendorOptionValueCollection $collection,
+        array $normalised
+    ) {
         $this->assertEquals($collection, $this->normaliser->denormalise($normalised));
     }
 
     public function data()
     {
-        $collection = new VendorOptionValueCollection();
-
-        $optionValue1 = new VendorOptionValue('code1');
-            $optionValue1->setValue('value1');
-
-        $collection->addValue($optionValue1);
-
-        $optionValue2 = new VendorOptionValue('code2');
-            $optionValue2->setValue('value2');
-
-        $collection->addValue($optionValue2);
-
-        $normalised = array(
-            'code1' => 'value1',
-            'code2' => 'value2'
-        );
-
         return array(
-            array($collection, $normalised)
+            array(
+                new VendorOptionValueCollection(
+                    array(
+                        $v1 = $this->optionValue('code1', 'value1'),
+                        $v2 = $this->optionValue('code2', 'value2')
+                    )
+                ),
+                array(
+                    array('option_code' => $v1->getOptionCode(), 'value' => $v1->getValue()),
+                    array('option_code' => $v2->getOptionCode(), 'value' => $v2->getValue())
+                )
+            )
         );
+    }
+
+    private function optionValue($code, $value)
+    {
+        $optionValue = new VendorOptionValue($code);
+        $optionValue->setValue($value);
+
+        return $optionValue;
     }
 }

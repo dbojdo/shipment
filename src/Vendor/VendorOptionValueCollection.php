@@ -22,9 +22,17 @@ class VendorOptionValueCollection implements \IteratorAggregate, \Countable
      */
     private $values;
 
-    public function __construct()
+    /**
+     * VendorOptionValueCollection constructor.
+     * @param VendorOptionValue[] $optionValues
+     */
+    public function __construct(array $optionValues = array())
     {
         $this->values = new ArrayCollection();
+
+        foreach ($optionValues as $value) {
+            $this->addValue($value);
+        }
     }
 
     /**

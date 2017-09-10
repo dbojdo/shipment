@@ -19,10 +19,25 @@ class DispatchConfirmation implements DispatchConfirmationInterface
     /**
      * @var \DateTime
      */
+    protected $pickUpAt;
+
+    /**
+     * @var bool
+     */
+    protected $courierCalled = false;
+
+    /**
+     * @var \DateTime
+     */
     protected $dispatchedAt;
 
     /**
-     * @return ArrayCollection
+     * @var array
+     */
+    protected $vendorData = array();
+
+    /**
+     * @inheritdoc
      */
     public function getConsignments()
     {
@@ -34,7 +49,7 @@ class DispatchConfirmation implements DispatchConfirmationInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getNumber()
     {
@@ -42,7 +57,7 @@ class DispatchConfirmation implements DispatchConfirmationInterface
     }
 
     /**
-     * @param string $number
+     * @inheritdoc
      */
     public function setNumber($number)
     {
@@ -50,7 +65,7 @@ class DispatchConfirmation implements DispatchConfirmationInterface
     }
 
     /**
-     * @return \DateTime
+     * @inheritdoc
      */
     public function getDispatchedAt()
     {
@@ -58,10 +73,69 @@ class DispatchConfirmation implements DispatchConfirmationInterface
     }
 
     /**
-     * @param \DateTime $dispatchedAt
+     * @inheritdoc
      */
     public function setDispatchedAt(\DateTime $dispatchedAt)
     {
         $this->dispatchedAt = $dispatchedAt;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPickUpAt()
+    {
+        return $this->pickUpAt;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPickUpAt(\DateTime $pickUpAt)
+    {
+        $this->pickUpAt = $pickUpAt;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getVendorData()
+    {
+        return $this->vendorData ?: array();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setVendorData(array $data)
+    {
+        $this->vendorData = $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCourierCalled()
+    {
+        return (bool)$this->courierCalled;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCourierCalled($courierCalled)
+    {
+        $this->courierCalled = (bool)$courierCalled;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function addVendorData($key, $data)
+    {
+        $vendorData = $this->getVendorData();
+        $vendorData[$key] = $data;
+
+        $this->setVendorData($vendorData);
     }
 }

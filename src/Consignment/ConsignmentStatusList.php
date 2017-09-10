@@ -27,8 +27,26 @@ final class ConsignmentStatusList
      */
     public static function getStatusList()
     {
-        $refCls = new \ReflectionClass(self);
+        return array(
+            self::STATUS_NEW,
+            self::STATUS_DISPATCHED,
+            self::STATUS_COLLECTED,
+            self::STATUS_DELIVERED,
+            self::STATUS_CLOSED,
+            self::STATUS_CANCELED,
+            self::STATUS_CONCERNED
+        );
+    }
 
-        return array_values($refCls->getConstants());
+    /**
+     * @return string[]
+     */
+    public static function openedStatuses()
+    {
+        return array(
+            self::STATUS_DISPATCHED,
+            self::STATUS_COLLECTED,
+            self::STATUS_CONCERNED
+        );
     }
 }

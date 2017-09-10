@@ -29,7 +29,7 @@ interface ConsignmentRepositoryInterface
      * @param SorterCollection $sorters
      * @param int $limit
      * @param int $offset
-     * @return ArrayCollection
+     * @return ArrayCollection|ConsignmentInterface[]
      */
     public function getConsignments(
         FilterCollection $filters = null,
@@ -52,4 +52,11 @@ interface ConsignmentRepositoryInterface
      * @param ConsignmentInterface $consignment
      */
     public function removeConsignment(ConsignmentInterface $consignment);
+
+    /**
+     * @param \DateTime $dateFrom
+     * @param \DateTime $dateTo
+     * @return ArrayCollection|ConsignmentInterface[]
+     */
+    public function getOpenedConsignments(\DateTime $dateFrom, \DateTime $dateTo);
 }
