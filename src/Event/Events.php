@@ -20,6 +20,7 @@ final class Events
 
     const PRE_CONSIGNMENT_STATUS_SYNCHRONIZE = 'shipment.pre_consignment_status_synchronize';
     const POST_CONSIGNMENT_STATUS_SYNCHRONIZE = 'shipment.post_consignment_status_synchronize';
+    const ON_CONSIGNMENT_STATUS_CHANGE = 'shipment.post_consignment_status_change';
 
     const PRE_CONSIGNMENT_SAVE = 'shipment.pre_consignment_save';
     const POST_CONSIGNMENT_SAVE = 'shipment.post_consignment_save';

@@ -11,6 +11,7 @@ use Webit\Shipment\Consignment\ConsignmentRepositoryInterface;
 use Webit\Shipment\Consignment\ConsignmentStatusList;
 use Webit\Shipment\Consignment\DispatchConfirmationRepositoryInterface;
 use Webit\Shipment\Event\EventConsignment;
+use Webit\Shipment\Event\EventConsignmentStatusChanged;
 use Webit\Shipment\Event\EventDispatchConfirmation;
 use Webit\Shipment\Event\Events;
 use Webit\Shipment\Manager\Exception\OperationNotPermittedException;
@@ -124,9 +125,8 @@ class ConsignmentManager implements ConsignmentManagerInterface
         /** @var ConsignmentInterface $consignment */
         foreach ($consignments as $consignment) {
             $adapter = $this->getAdapter($consignment);
-            $event = new EventConsignment($consignment);
-            $this->eventDispatcher->dispatch(Events::PRE_CONSIGNMENT_STATUS_SYNCHRONIZE, $event);
 
+            $previousStatus = $consignment->getStatus();
             try {
                 /** @var ParcelInterface $parcel */
                 foreach ($consignment->getParcels() as $parcel) {
@@ -141,9 +141,12 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 throw new VendorAdapterException('Error during consignments\' status synchronization.', null, $e);
             }
 
-
-            $event = new EventConsignment($consignment);
-            $this->eventDispatcher->dispatch(Events::POST_CONSIGNMENT_STATUS_SYNCHRONIZE, $event);
+            if ($consignment->getStatus() != $previousStatus) {
+                $this->eventDispatcher->dispatch(
+                    Events::ON_CONSIGNMENT_STATUS_CHANGE,
+                    new EventConsignmentStatusChanged($consignment, $previousStatus)
+                );
+            }
         }
     }
 
