@@ -141,12 +141,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 throw new VendorAdapterException('Error during consignments\' status synchronization.', null, $e);
             }
 
-            if ($consignment->getStatus() != $previousStatus) {
-                $this->eventDispatcher->dispatch(
-                    Events::ON_CONSIGNMENT_STATUS_CHANGE,
-                    new EventConsignmentStatusChanged($consignment, $previousStatus)
-                );
-            }
+            $this->dispatchOnConsignmentStatusChange($consignment, $previousStatus);
         }
     }
 
@@ -199,6 +194,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
 
             foreach ($dispatchConfirmation->getConsignments() as $consignment) {
                 $consignment->setDispatchConfirmation($dispatchConfirmation);
+                $previousStatus = $consignment->getStatus();
 
                 /** @var ParcelInterface $parcel */
                 foreach ($consignment->getParcels() as $parcel) {
@@ -207,6 +203,8 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 $consignment->setStatus(ConsignmentStatusList::STATUS_DISPATCHED);
 
                 $this->consignmentRepository->saveConsignment($consignment);
+
+                $this->dispatchOnConsignmentStatusChange($consignment, $previousStatus);
             }
 
             $event = new EventDispatchConfirmation($dispatchConfirmation);
@@ -284,5 +282,21 @@ class ConsignmentManager implements ConsignmentManagerInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param ConsignmentInterface $consignment
+     * @param string $previousStatus
+     */
+    private function dispatchOnConsignmentStatusChange(ConsignmentInterface $consignment, $previousStatus)
+    {
+        if ($consignment->getStatus() == $previousStatus) {
+            return;
+        }
+
+        $this->eventDispatcher->dispatch(
+            Events::ON_CONSIGNMENT_STATUS_CHANGE,
+            new EventConsignmentStatusChanged($consignment, $previousStatus)
+        );
     }
 }
