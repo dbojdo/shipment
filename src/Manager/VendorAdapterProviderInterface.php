@@ -15,10 +15,10 @@ use Webit\Shipment\Vendor\VendorInterface;
 interface VendorAdapterProviderInterface
 {
     /**
-     * @param VendorInterface $vendor
+     * @param string $vendorCode
      * @return VendorAdapterInterface
      */
-    public function getVendorAdapter(VendorInterface $vendor);
+    public function getVendorAdapter($vendorCode);
 
     /**
      * @param VendorAdapterInterface $vendorAdapter

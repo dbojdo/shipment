@@ -94,12 +94,12 @@ class PrintManager implements PrintManagerInterface
     }
 
     /**
-     * @param VendorInterface $vendor
+     * @param string $vendorCode
      * @return VendorAdapterInterface
      */
-    private function vendorAdapter(VendorInterface $vendor)
+    private function vendorAdapter($vendorCode)
     {
-        return $this->adapterProvider->getVendorAdapter($vendor);
+        return $this->adapterProvider->getVendorAdapter($vendorCode);
     }
 
     /**

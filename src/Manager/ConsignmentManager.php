@@ -247,11 +247,10 @@ class ConsignmentManager implements ConsignmentManagerInterface
      */
     private function getAdapter(ConsignmentInterface $consignment)
     {
-        $vendor = $consignment->getVendor();
-        $adapter = $this->adapterProvider->getVendorAdapter($vendor);
+        $adapter = $this->adapterProvider->getVendorAdapter($vendorCode = $consignment->getVendor());
         if (! $adapter) {
             throw new VendorAdapterNotFoundException(
-                sprintf('Vendor adapter for "%s" not found', $vendor->getCode())
+                sprintf('Vendor adapter for "%s" not found', $vendorCode)
             );
         }
 

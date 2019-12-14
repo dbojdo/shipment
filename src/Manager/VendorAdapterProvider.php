@@ -16,9 +16,7 @@ use Webit\Shipment\Vendor\VendorInterface;
  */
 class VendorAdapterProvider implements VendorAdapterProviderInterface
 {
-    /**
-     * @var ArrayCollection
-     */
+    /** @var ArrayCollection */
     private $vendorAdapters;
 
     public function __construct()
@@ -27,17 +25,15 @@ class VendorAdapterProvider implements VendorAdapterProviderInterface
     }
 
     /**
-     * @param VendorInterface $vendor
-     * @return VendorAdapterProviderInterface
+     * @inheritDoc
      */
-    public function getVendorAdapter(VendorInterface $vendor)
+    public function getVendorAdapter($vendorCode)
     {
-        return $this->vendorAdapters->get($vendor->getCode());
+        return $this->vendorAdapters->get($vendorCode);
     }
 
     /**
-     * @param VendorAdapterInterface $vendorAdapter
-     * @param string $vendorCode
+     * @inheritDoc
      */
     public function registerVendorAdapter(VendorAdapterInterface $vendorAdapter, $vendorCode)
     {
@@ -52,6 +48,4 @@ class VendorAdapterProvider implements VendorAdapterProviderInterface
 
         $this->vendorAdapters->set($vendorCode, $vendorAdapter);
     }
-
 }
- 

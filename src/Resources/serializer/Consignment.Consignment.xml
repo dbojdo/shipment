@@ -5,10 +5,7 @@
                   type="string"
                   serialized-name="id"
                 />
-        <property name="vendor"
-                  type="Webit\Shipment\Vendor\VendorInterface"
-                  serialized-name="vendor"
-                />
+        <property name="vendor" type="string" serialized-name="vendor" />
         <property name="vendorOptions"
                   type="Webit\Shipment\Vendor\VendorOptionValueCollection"
                   serialized-name="vendor_options"

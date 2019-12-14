@@ -25,7 +25,7 @@ class Consignment implements ConsignmentInterface
     protected $id;
 
     /**
-     * @var VendorInterface
+     * @var string
      */
     protected $vendor;
 
@@ -285,7 +285,7 @@ class Consignment implements ConsignmentInterface
     /**
      * @inheritdoc
      */
-    public function setVendor(VendorInterface $vendor)
+    public function setVendor($vendor)
     {
         $this->vendor = $vendor;
     }

@@ -21,21 +21,21 @@ use Webit\Shipment\Vendor\VendorOptionValueCollection;
  */
 interface ConsignmentInterface extends \IteratorAggregate
 {
-
     /**
      * @return mixed
      */
     public function getId();
 
     /**
-     * @return VendorInterface
+     * Returns the vendor code
+     * @return string
      */
     public function getVendor();
 
     /**
-     * @param VendorInterface $vendor
+     * @param string $vendor
      */
-    public function setVendor(VendorInterface $vendor);
+    public function setVendor($vendor);
 
     /**
      * @return string
