@@ -33,6 +33,12 @@ interface ConsignmentManagerInterface
     public function saveConsignment(ConsignmentInterface $consignment);
 
     /**
+     * @param ConsignmentInterface $consignment
+     * @param $status
+     */
+    public function changeConsignmentStatus(ConsignmentInterface $consignment, $status);
+
+    /**
      * @param ArrayCollection $consignments
      */
     public function synchronizeConsignmentsStatus(ArrayCollection $consignments);

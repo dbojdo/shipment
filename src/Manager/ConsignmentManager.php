@@ -26,27 +26,18 @@ use Webit\Shipment\Parcel\ParcelInterface;
  * Class ConsignmentManager
  * @author Daniel Bojdo <daniel.bojdo@web-it.eu>
  */
-class ConsignmentManager implements ConsignmentManagerInterface
+final class ConsignmentManager implements ConsignmentManagerInterface
 {
-
-    /**
-     * @var VendorAdapterProviderInterface
-     */
+    /** @var VendorAdapterProviderInterface */
     private $adapterProvider;
 
-    /**
-     * @var ConsignmentRepositoryInterface
-     */
+    /** @var ConsignmentRepositoryInterface */
     private $consignmentRepository;
 
-    /**
-     * @var DispatchConfirmationRepositoryInterface
-     */
+    /** @var DispatchConfirmationRepositoryInterface */
     private $dispatchConfirmationRepository;
 
-    /**
-     * @var EventDispatcherInterface
-     */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     /**
@@ -68,8 +59,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
     }
 
     /**
-     * @param ConsignmentInterface $consignment
-     * @throws \Exception
+     * @inheritDoc
      */
     public function synchronizeConsignment(ConsignmentInterface $consignment)
     {
@@ -90,9 +80,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
     }
 
     /**
-     * Save given consignment
-     * @param ConsignmentInterface $consignment
-     * @throws \Exception
+     * @inheritDoc
      */
     public function saveConsignment(ConsignmentInterface $consignment)
     {
@@ -117,8 +105,23 @@ class ConsignmentManager implements ConsignmentManagerInterface
     }
 
     /**
-     * @param ArrayCollection $consignments
-     * @throws \Exception
+     * @inheritDoc
+     */
+    public function changeConsignmentStatus(ConsignmentInterface $consignment, $status)
+    {
+        $status = ConsignmentStatusList::normaliseStatus($status);
+        $previousStatus = $consignment->getStatus();
+        if ($status === $previousStatus) {
+            return;
+        }
+
+        $consignment->setStatus($status);
+        $this->consignmentRepository->saveConsignment($consignment);
+        $this->dispatchOnConsignmentStatusChange($consignment, $previousStatus);
+    }
+
+    /**
+     * @inheritDoc
      */
     public function synchronizeConsignmentsStatus(ArrayCollection $consignments)
     {
@@ -126,7 +129,6 @@ class ConsignmentManager implements ConsignmentManagerInterface
         foreach ($consignments as $consignment) {
             $adapter = $this->getAdapter($consignment);
 
-            $previousStatus = $consignment->getStatus();
             try {
                 /** @var ParcelInterface $parcel */
                 foreach ($consignment->getParcels() as $parcel) {
@@ -134,21 +136,18 @@ class ConsignmentManager implements ConsignmentManagerInterface
                 }
 
                 $consignmentStatus = $this->resolveConsignmentStatus($consignment);
-                $consignment->setStatus($consignmentStatus);
-
-                $this->consignmentRepository->saveConsignment($consignment);
+                if (!$consignmentStatus) {
+                    continue;
+                }
+                $this->changeConsignmentStatus($consignment, $consignmentStatus);
             } catch (\Exception $e) {
                 throw new VendorAdapterException('Error during consignments\' status synchronization.', null, $e);
             }
-
-            $this->dispatchOnConsignmentStatusChange($consignment, $previousStatus);
         }
     }
 
     /**
-     * Remove given consignment. Allowed only in "new" status
-     * @param ConsignmentInterface $consignment
-     * @throws \Exception
+     * @inheritDoc
      */
     public function removeConsignment(ConsignmentInterface $consignment)
     {
@@ -178,8 +177,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
     }
 
     /**
-     * Dispatches consignments with given DispatchConfirmation
-     * @param DispatchConfirmationInterface $dispatchConfirmation
+     * @inheritDoc
      */
     public function dispatch(DispatchConfirmationInterface $dispatchConfirmation)
     {
@@ -215,9 +213,7 @@ class ConsignmentManager implements ConsignmentManagerInterface
     }
 
     /**
-     * Cancel given consignment. Allowed only in status different than "new".
-     * @param ConsignmentInterface $consignment
-     * @throws \Exception
+     * @inheritDoc
      */
     public function cancelConsignment(ConsignmentInterface $consignment)
     {
@@ -289,10 +285,6 @@ class ConsignmentManager implements ConsignmentManagerInterface
      */
     private function dispatchOnConsignmentStatusChange(ConsignmentInterface $consignment, $previousStatus)
     {
-        if ($consignment->getStatus() == $previousStatus) {
-            return;
-        }
-
         $this->eventDispatcher->dispatch(
             Events::ON_CONSIGNMENT_STATUS_CHANGE,
             new EventConsignmentStatusChanged($consignment, $previousStatus)

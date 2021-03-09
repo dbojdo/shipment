@@ -8,6 +8,8 @@
 
 namespace Webit\Shipment\Consignment;
 
+use Webit\Shipment\Consignment\Exception\InvalidConsignmentStatusException;
+
 /**
  * Class ConsignmentStatusList
  * @package Webit\Shipment\Consignment
@@ -48,5 +50,17 @@ final class ConsignmentStatusList
             self::STATUS_COLLECTED,
             self::STATUS_CONCERNED
         );
+    }
+
+    public static function assertStatus($status)
+    {
+        if ($status && !in_array(self::normaliseStatus($status), self::getStatusList())) {
+            throw InvalidConsignmentStatusException::createForStatus($status);
+        }
+    }
+
+    public static function normaliseStatus($status)
+    {
+        return strtolower(trim($status)) ?: null;
     }
 }

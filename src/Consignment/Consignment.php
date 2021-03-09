@@ -104,6 +104,11 @@ class Consignment implements ConsignmentInterface
      */
     protected $updatedAt;
 
+    public function __construct()
+    {
+        $this->setStatus(ConsignmentStatusList::STATUS_NEW);
+    }
+
     /**
      * @inheritdoc
      */
@@ -238,6 +243,9 @@ class Consignment implements ConsignmentInterface
      */
     public function setStatus($status)
     {
+        $status = ConsignmentStatusList::normaliseStatus($status);
+        ConsignmentStatusList::assertStatus($status);
+
         $this->status = $status;
     }
 
